@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29123.88
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SilentAuction", "SilentAuction\SilentAuction.csproj", "{F09918AB-C983-44CE-BA3F-20A33757F65C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F09918AB-C983-44CE-BA3F-20A33757F65C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F09918AB-C983-44CE-BA3F-20A33757F65C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F09918AB-C983-44CE-BA3F-20A33757F65C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F09918AB-C983-44CE-BA3F-20A33757F65C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C432F90F-56E2-48A9-8F44-41112B3F9EF9}
+	EndGlobalSection
+EndGlobal
