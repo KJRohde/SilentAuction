@@ -7,20 +7,22 @@ using System.Web;
 
 namespace SilentAuction.Models
 {
-    public class Raffle
+    public class Auction
     {
         [Key]
-        public int RaffleId { get; set; }
-        [DataType(DataType.DateTime)]
+        public int AuctionId { get; set; }
+        [ForeignKey("Manager")]
+        public int ManagerId { get; set; }
+        public Manager Manager { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime Day { get; set; }
+        [DataType(DataType.Time)]
         public DateTime StartTime { get; set; }
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.Time)]
         public DateTime EndTime { get; set; }
         public double TotalRaised { get; set; }
         public string Donors { get; set; }
         public string Name { get; set; }
-        [ForeignKey("Manager")]
-        public int ManagerId { get; set; }
-        public Manager Manager { get; set; }
         public string Description { get; set; }
     }
 }

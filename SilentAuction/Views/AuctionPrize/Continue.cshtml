@@ -1,0 +1,14 @@
+﻿@model SilentAuction.Models.Auction
+@{
+    ViewBag.Title = "Continue";
+}
+
+<h2>Continue adding prizes?</h2>
+
+<button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Create", "AuctionPrize", new { id = Model.AuctionId })'">Yes, add another prize</button>
+
+<br>
+<br>
+
+<button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "Auction")'">No more prizes for now</button>
+

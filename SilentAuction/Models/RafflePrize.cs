@@ -10,9 +10,10 @@ namespace SilentAuction.Models
     public class RafflePrize
     {
         [Key]
-        public int Id { get; set; }
+        public int RafflePrizeId { get; set; }
         [ForeignKey("Raffle")]
         public int RaffleId { get; set; }
+        public Raffle Raffle { get; set; }
         public double Value { get; set; }
         public string Description { get; set; }
         public string Picture { get; set; }

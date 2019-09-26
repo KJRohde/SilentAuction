@@ -24,7 +24,7 @@ namespace SilentAuction.Models
         public DbSet<Participant> Participants { get; set; }
         public DbSet<Raffle> Raffles { get; set; }
         public DbSet<RafflePrize> RafflePrizes { get; set; }
-        public DbSet<SilentAuction> SilentAuctions { get; set; }
+        public DbSet<Auction> Auctions { get; set; }
         public DbSet<AuctionPrize> AuctionPrizes { get; set; }
 
         public ApplicationDbContext()

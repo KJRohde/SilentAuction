@@ -1,0 +1,92 @@
+﻿@model SilentAuction.Models.ViewModel
+@{
+    ViewBag.Title = "Index";
+}
+<br />
+<br />
+<br />
+<h2>Upcomming Silent Auctions</h2>
+
+@Html.ActionLink("Create a new Auction", "Create", "Auction")
+<table class="table">
+    <tr>
+        <th>
+            Start Time
+        </th>
+        <th>
+            End Time
+        </th>
+        <th>
+            Event
+        </th>
+        <th>
+            Description
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Auctions)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.AuctionId })
+                @Html.ActionLink("Delete", "Delete", new { id = item.AuctionId })
+            </td>
+        </tr>
+    }
+</table>
+
+<h2>Upcomming Raffles</h2>
+
+@Html.ActionLink("Create a new Auction", "Create", "Raffle")
+<table class="table">
+    <tr>
+        <th>
+            Start Time
+        </th>
+        <th>
+            End Time
+        </th>
+        <th>
+            Event
+        </th>
+        <th>
+            Description
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Raffles)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.RaffleId })
+                @Html.ActionLink("Delete", "Delete", new { id = item.RaffleId })
+            </td>
+        </tr>
+    }
+</table>

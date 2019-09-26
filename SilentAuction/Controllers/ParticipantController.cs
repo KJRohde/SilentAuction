@@ -9,13 +9,13 @@ using System.Web.Mvc;
 
 namespace SilentAuction.Controllers
 {
-    public class ParticipantsController : Controller
+    public class ParticipantController : Controller
     {
         private ApplicationDbContext context = new ApplicationDbContext();
         // GET: Participants
         public ActionResult Index(int id)
         {
-            var participant = context.Participants.FirstOrDefault(m => m.Id == id);
+            var participant = context.Participants.FirstOrDefault(m => m.ParticipantId == id);
             return View(participant);
         }
         public ActionResult Details(int? id)
@@ -47,7 +47,7 @@ namespace SilentAuction.Controllers
             {
                 context.Participants.Add(participant);
                 context.SaveChanges();
-                return RedirectToAction("Index", new { id = participant.Id });
+                return RedirectToAction("Index", new { id = participant.ParticipantId });
             }
 
             return View(participant);

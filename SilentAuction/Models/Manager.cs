@@ -10,10 +10,11 @@ namespace SilentAuction.Models
     public class Manager
     {
         [Key]
-        public int Id { get; set; }
+        public int ManagerId { get; set; }
         //public string DonationMessage { get; set; }
         [ForeignKey("ApplicationUser")]
         public string ApplicationUserId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string EmailAddress { get; set; }
