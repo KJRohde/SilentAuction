@@ -11,6 +11,13 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
+            @Html.DisplayNameFor(model => model.Day)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Day)
+        </dd>
+        <dt>
             @Html.DisplayNameFor(model => model.StartTime)
         </dt>
 
@@ -41,10 +48,11 @@
         <dd>
             @Html.DisplayFor(model => model.Donors)
         </dd>
+        </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit Information", "Edit", new { id = Model.AuctionId }) ||
-    @Html.ActionLink("Add Auction Items", "AddItems", new { id = Model.AuctionId }) ||
-    @Html.ActionLink("View Auction Items", "ViewItems", new { id = Model.AuctionId }) ||
+    @Html.ActionLink("Edit Information", "Edit") ||
+    @Html.ActionLink("Add Auction Items", "AddItem", new { id = Model.AuctionId }) ||
+    @Html.ActionLink("View Auction Items", "ViewItems") ||
 
 </p>

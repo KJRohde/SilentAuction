@@ -177,9 +177,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201909261348296_init.cs" />
-    <Compile Include="Migrations\201909261348296_init.Designer.cs">
-      <DependentUpon>201909261348296_init.cs</DependentUpon>
+    <Compile Include="Migrations\201909261548378_init.cs" />
+    <Compile Include="Migrations\201909261548378_init.Designer.cs">
+      <DependentUpon>201909261548378_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -258,11 +258,12 @@
     <Content Include="Views\Manager\Edit.cshtml" />
     <Content Include="Views\Auction\Create.cshtml" />
     <Content Include="Views\Auction\Index.cshtml" />
-    <Content Include="Views\AuctionPrize\Create.cshtml" />
-    <Content Include="Views\AuctionPrize\Continue.cshtml" />
+    <Content Include="Views\Auction\AddItem.cshtml" />
+    <Content Include="Views\Auction\Continue.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\AuctionPrize\" />
     <Folder Include="Views\Participant\" />
   </ItemGroup>
   <ItemGroup>
@@ -279,8 +280,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201909261348296_init.resx">
-      <DependentUpon>201909261348296_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201909261548378_init.resx">
+      <DependentUpon>201909261548378_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

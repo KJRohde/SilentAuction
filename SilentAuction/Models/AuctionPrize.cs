@@ -17,9 +17,7 @@ namespace SilentAuction.Models
         public double CurrentBid { get; set; }
         public string Description { get; set; }
         public string Picture { get; set; }
-        [ForeignKey("Winner")]
-        public int WinnerId { get; set; }
-        public Participant Winner { get; set; }
+        public int? WinnerId { get; set; }
         [ForeignKey("Auction")]
         public int AuctionId { get; set; }
         public Auction Auction { get; set; }

@@ -17,7 +17,7 @@ namespace SilentAuction.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-        ApplicationDbContext context;
+        private ApplicationDbContext context = new ApplicationDbContext();
 
         public AccountController()
         {
