@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using MailKit.Net.Smtp;
+using Microsoft.AspNet.Identity;
+using MimeKit;
 using SilentAuction.Models;
 using System;
 using System.Collections.Generic;
@@ -83,5 +85,71 @@ namespace SilentAuction.Controllers
             }
             return View(manager);
         }
+        //public async System.Threading.Tasks.Task<ActionResult> CloseAuctionAsync(int auctionId)
+        //{
+        //        var auction = context.Auctions.FirstOrDefault(u => u.AuctionId == auctionId);
+        //        auction.EndTime = DateTime.Now;
+        //        context.SaveChanges();
+        //        var prizes = context.AuctionPrizes.Where(p => p.AuctionId == auction.AuctionId).ToList();
+        //        foreach (AuctionPrize prize in prizes)
+        //        {
+        //            Participant winner = context.Participants.FirstOrDefault(w => w.ParticipantId == prize.WinnerId);
+        //            try
+        //            {
+        //                //From Address    
+        //                string FromAddress = "DCCSilentAuction@gmail.com";
+        //                string FromAdressTitle = "Silent Auction App";
+        //                //To Address    
+        //                string ToAddress = winner.EmailAddress;
+        //                string ToAdressTitle = "Winner";
+        //                string Subject = "You're a Winner!";
+        //                string BodyContent = prize.Auction.Message;
+
+        //                //Smtp Server    
+        //                string SmtpServer = "smtp.gmail.com";
+        //                //Smtp Port Number    
+        //                int SmtpPortNumber = 587;
+
+        //                var mimeMessage = new MimeMessage();
+        //                mimeMessage.From.Add(new MailboxAddress
+        //                                        (FromAdressTitle,
+        //                                         FromAddress
+        //                                         ));
+        //                mimeMessage.To.Add(new MailboxAddress
+        //                                         (ToAdressTitle,
+        //                                         ToAddress
+        //                                         ));
+        //                mimeMessage.Subject = Subject; //Subject  
+        //                mimeMessage.Body = new TextPart("plain")
+        //                {
+        //                    Text = BodyContent
+        //                };
+
+        //                using (var client = new SmtpClient())
+        //                {
+        //                    client.Connect(SmtpServer, SmtpPortNumber, false);
+        //                    client.Authenticate(
+        //                        "DCCSilentAuction@gmail.com",
+        //                        "!234Qwer"
+        //                        );
+        //                    await client.SendAsync(mimeMessage);
+        //                    Console.WriteLine("The mail has been sent successfully !!");
+        //                    Console.ReadLine();
+        //                    await client.DisconnectAsync(true);
+        //                    return RedirectToAction("SentEmail", "Manager");
+        //                }
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                throw ex;
+
+        //            }
+        //        }
+        //    return View();
+        //}
+        //public ActionResult SentEmail()
+        //{
+        //    return View();
+        //}
     }
 }

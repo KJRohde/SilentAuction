@@ -3,7 +3,7 @@ namespace SilentAuction.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialCreate : DbMigration
+    public partial class init : DbMigration
     {
         public override void Up()
         {
@@ -33,6 +33,7 @@ namespace SilentAuction.Migrations
                     {
                         AuctionId = c.Int(nullable: false, identity: true),
                         ManagerId = c.Int(nullable: false),
+                        Message = c.String(),
                         Day = c.DateTime(nullable: false),
                         StartTime = c.DateTime(nullable: false),
                         EndTime = c.DateTime(nullable: false),
@@ -163,6 +164,7 @@ namespace SilentAuction.Migrations
                         ManagerId = c.Int(nullable: false),
                         Description = c.String(),
                         CostPerTicket = c.Int(nullable: false),
+                        Message = c.String(),
                     })
                 .PrimaryKey(t => t.RaffleId)
                 .ForeignKey("dbo.Managers", t => t.ManagerId, cascadeDelete: true)

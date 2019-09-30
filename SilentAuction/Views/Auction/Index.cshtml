@@ -56,3 +56,7 @@
     @Html.ActionLink("View Auction Items", "ViewItems") ||
 
 </p>
+<br />
+<p>
+    @Html.ActionLink("Close Auction", "CloseAuctionAsync", new { auctionId = Model.AuctionId })
+</p>

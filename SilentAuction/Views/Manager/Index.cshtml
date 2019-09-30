@@ -44,6 +44,7 @@
                 @Html.ActionLink("Edit", "Edit", new { id = item.AuctionId }) ||
                 @Html.ActionLink("Delete", "Delete", new { id = item.AuctionId }) ||
                 @Html.ActionLink("Add Item", "AddItem", "AuctionPrize",  new { id = item.AuctionId }, null)
+                @Html.ActionLink("Details", "Index", "Auction", new { id = item.AuctionId }, null)
             </td>
         </tr>
     }

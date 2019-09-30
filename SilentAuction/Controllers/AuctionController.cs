@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using MailKit.Net.Smtp;
+using Microsoft.AspNet.Identity;
+using MimeKit;
 using SilentAuction.Models;
 using System;
 using System.Collections.Generic;
@@ -26,7 +28,7 @@ namespace SilentAuction.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create([Bind(Include = "Name,Description,StartTime,EndTime,Donors,AuctionId,ManagerId,Day")] Auction auction)
+        public ActionResult Create([Bind(Include = "Name,Description,StartTime,EndTime,Donors,AuctionId,ManagerId,Day,Message")] Auction auction)
         {
             var currentUserId = User.Identity.GetUserId();
             Manager manager = context.Managers.FirstOrDefault(m => m.ApplicationUserId == currentUserId);
@@ -45,6 +47,82 @@ namespace SilentAuction.Controllers
         {
             var auctionItems = context.AuctionPrizes.Where(a => a.AuctionId == id).ToList();
             return View(auctionItems);
+        }
+        public async System.Threading.Tasks.Task<ActionResult> CloseAuctionAsync(int auctionId)
+        {
+            var auction = context.Auctions.FirstOrDefault(u => u.AuctionId == auctionId);
+            var prizes = context.AuctionPrizes.Where(p => p.AuctionId == auction.AuctionId).ToList();
+
+            foreach (AuctionPrize prize in prizes)
+            {
+                Participant winner = context.Participants.FirstOrDefault(w => w.ParticipantId == prize.TopParticipant);
+                try
+                {
+                    //From Address    
+                    string FromAddress = "DCCSilentAuction@gmail.com";
+                    string FromAdressTitle = "Silent Auction App";
+                    //To Address    
+                    string ToAddress = winner.EmailAddress;
+                    string ToAdressTitle = "Winner";
+                    string Subject = "You're a Winner!";
+                    string BodyContent = prize.Auction.Message;
+
+                    //Smtp Server    
+                    string SmtpServer = "smtp.gmail.com";
+                    //Smtp Port Number    
+                    int SmtpPortNumber = 587;
+
+                    var mimeMessage = new MimeMessage();
+                    mimeMessage.From.Add(new MailboxAddress
+                                            (FromAdressTitle,
+                                             FromAddress
+                                             ));
+                    mimeMessage.To.Add(new MailboxAddress
+                                             (ToAdressTitle,
+                                             ToAddress
+                                             ));
+                    mimeMessage.Subject = Subject; //Subject  
+                    mimeMessage.Body = new TextPart("plain")
+                    {
+                        Text = BodyContent
+                    };
+
+                    using (var client = new SmtpClient())
+                    {
+                        client.Connect(SmtpServer, SmtpPortNumber, false);
+                        client.Authenticate(
+                            "DCCSilentAuction@gmail.com",
+                            "!234Qwer"
+                            );
+                        await client.SendAsync(mimeMessage);
+                        await client.DisconnectAsync(true);
+                        return View(auction);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+            }
+            return View();
+        }
+        [HttpPost]
+        public async System.Threading.Tasks.Task<ActionResult> CloseAuctionAsync([Bind(Include = "Name,Description,StartTime,EndTime,Donors,AuctionId,ManagerId,Day,Message")] Auction auction, int auctionId)
+        {
+            Auction auctionToEdit = context.Auctions.FirstOrDefault(a => a.AuctionId == auctionId);
+            var prizes = context.AuctionPrizes.Where(p => p.AuctionId == auctionToEdit.AuctionId).ToList();
+            foreach (AuctionPrize prize in prizes)
+            {
+                prize.TopParticipant = prize.WinnerId;
+            }
+            await context.SaveChangesAsync();
+            return RedirectToAction("EmailSent", "Manager");
+        }
+
+        public ActionResult SentEmail()
+        {
+            return View();
         }
     }
 }

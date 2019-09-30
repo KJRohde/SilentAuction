@@ -13,6 +13,8 @@ namespace SilentAuction.Models
         public int AuctionId { get; set; }
         [ForeignKey("Manager")]
         public int ManagerId { get; set; }
+        [Display(Name = "Message for winners")]
+        public string Message { get; set; }
         public Manager Manager { get; set; }
         [DataType(DataType.Date)]
         public DateTime Day { get; set; }

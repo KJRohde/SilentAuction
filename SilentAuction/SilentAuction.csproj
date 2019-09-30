@@ -45,11 +45,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.5.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.5\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="MailKit, Version=2.3.0.0, Culture=neutral, PublicKeyToken=4e064fe7c44a8f1b, processorArchitecture=MSIL">
+      <HintPath>..\packages\MailKit.2.3.1.6\lib\net47\MailKit.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MimeKit, Version=2.3.0.0, Culture=neutral, PublicKeyToken=bede1c8a46c66814, processorArchitecture=MSIL">
+      <HintPath>..\packages\MimeKit.2.3.1\lib\net47\MimeKit.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -176,13 +186,9 @@
     <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="Controllers\ParticipantController.cs" />
     <Compile Include="Controllers\RaffleController.cs" />
-    <Compile Include="Migrations\201909301540556_InitialCreate.cs" />
-    <Compile Include="Migrations\201909301540556_InitialCreate.Designer.cs">
-      <DependentUpon>201909301540556_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201909301541447_init.cs" />
-    <Compile Include="Migrations\201909301541447_init.Designer.cs">
-      <DependentUpon>201909301541447_init.cs</DependentUpon>
+    <Compile Include="Migrations\201909302021252_init.cs" />
+    <Compile Include="Migrations\201909302021252_init.Designer.cs">
+      <DependentUpon>201909302021252_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\tblAuctionPrize.cs" />
@@ -290,6 +296,7 @@
     <Content Include="Views\Auction\Participate.cshtml" />
     <Content Include="Views\Participant\Create.cshtml" />
     <Content Include="Views\AuctionPrize\AddItem.cshtml" />
+    <Content Include="Views\Manager\SentEmail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="UserImages\" />
@@ -312,11 +319,8 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201909301540556_InitialCreate.resx">
-      <DependentUpon>201909301540556_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909301541447_init.resx">
-      <DependentUpon>201909301541447_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201909302021252_init.resx">
+      <DependentUpon>201909302021252_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
