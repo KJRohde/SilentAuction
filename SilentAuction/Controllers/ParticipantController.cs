@@ -13,10 +13,14 @@ namespace SilentAuction.Controllers
     {
         private ApplicationDbContext context = new ApplicationDbContext();
         // GET: Participants
-        public ActionResult Index(int id)
+        public ActionResult Index()
         {
-            var participant = context.Participants.FirstOrDefault(m => m.ParticipantId == id);
-            return View(participant);
+            var myModel = new ViewModel
+            {
+                Auctions = context.Auctions.Where(s => s.StartTime <= DateTime.Now && s.EndTime >= DateTime.Now && s.Day == DateTime.Today).ToList(),
+                Raffles = context.Raffles.Where(s => s.StartTime <= DateTime.Now && s.EndTime >= DateTime.Now && s.Day == DateTime.Today).ToList()
+            };
+            return View(myModel);
         }
         public ActionResult Details(int? id)
         {

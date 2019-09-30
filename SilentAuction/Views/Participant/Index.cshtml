@@ -5,9 +5,8 @@
 <br />
 <br />
 <br />
-<h2>Upcomming Silent Auctions</h2>
+<h2>Active Silent Auctions</h2>
 
-@Html.ActionLink("Create a new Auction", "Create", "Auction")
 <table class="table">
     <tr>
         <th>
@@ -41,17 +40,14 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.AuctionId }) ||
-                @Html.ActionLink("Delete", "Delete", new { id = item.AuctionId }) ||
-                @Html.ActionLink("Add Item", "AddItem", "AuctionPrize",  new { id = item.AuctionId }, null)
+                @Html.ActionLink("Participate", "Participate", "Auction", new { id = item.AuctionId }, null)
             </td>
         </tr>
     }
 </table>
 
-<h2>Upcomming Raffles</h2>
+<h2>Active Raffles</h2>
 
-@Html.ActionLink("Create a new Auction", "Create", "Raffle")
 <table class="table">
     <tr>
         <th>
@@ -85,8 +81,7 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.RaffleId })
-                @Html.ActionLink("Delete", "Delete", new { id = item.RaffleId })
+                @Html.ActionLink("Participate", "Participate", "Raffle", new { id = item.RaffleId }, null)
             </td>
         </tr>
     }

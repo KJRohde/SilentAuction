@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="SilentAuctionDataClasses">
+  <DataContextMoniker Name="/SilentAuctionDataClassesDataContext" />
+  <nestedChildShapes>
+    <classShape Id="bf24c98a-57d6-45ae-bccd-8008a5ada9d2" absoluteBounds="2.375, 2, 2, 3.1170068359375">
+      <DataClassMoniker Name="/SilentAuctionDataClassesDataContext/tblAuctionPrize" />
+      <nestedChildShapes>
+        <elementListCompartment Id="a7ee1ad9-5378-445b-a054-5a553a775143" absoluteBounds="2.3899999999999997, 2.46, 1.9700000000000002, 2.5570068359375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="0881b48e-4077-418a-b2d9-4a2153af1667" absoluteBounds="7.125, 2.625, 2, 2.3478011067708335">
+      <DataClassMoniker Name="/SilentAuctionDataClassesDataContext/tblRafflePrize" />
+      <nestedChildShapes>
+        <elementListCompartment Id="ca3caee8-344a-439c-abfd-ebd13a6f3769" absoluteBounds="7.14, 3.085, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

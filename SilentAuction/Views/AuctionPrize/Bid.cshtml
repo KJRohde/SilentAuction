@@ -1,0 +1,24 @@
+﻿@model SilentAuction.Models.AuctionPrize
+@{
+    ViewBag.Title = "Bid";
+}
+
+<h2>Are you sure you would like to bid on @Html.DisplayFor(model => model.Name)?</h2>
+
+<p>@Html.DisplayFor(model => model.Description)</p>
+<br />
+<p>The actual value of this item is: @Html.DisplayFor(model => model.ActualValue)</p>
+<br />
+<p>The current bid on this item is: @Html.DisplayFor(model => model.CurrentBid)</p>
+<br />
+<p>Going once... Going twice...</p>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color">
+        <input type="submit" value="Bid" class="btn btn-default" /> ||
+        @Html.ActionLink("Back to List", "Index", "Participant")
+    </div>
+}

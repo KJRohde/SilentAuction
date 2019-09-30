@@ -10,6 +10,7 @@ namespace SilentAuction.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
+            ContextKey = "SilentAuction.Models.ApplicationDbContext";
         }
 
         protected override void Seed(SilentAuction.Models.ApplicationDbContext context)

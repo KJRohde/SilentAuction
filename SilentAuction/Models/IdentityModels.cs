@@ -26,6 +26,8 @@ namespace SilentAuction.Models
         public DbSet<RafflePrize> RafflePrizes { get; set; }
         public DbSet<Auction> Auctions { get; set; }
         public DbSet<AuctionPrize> AuctionPrizes { get; set; }
+        public DbSet<tblAuctionPrize> tblAuctionPrizes { get; set; }
+        public DbSet<tblRafflePrize> tblRafflePrizes { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

@@ -3,7 +3,7 @@ namespace SilentAuction.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class init : DbMigration
+    public partial class InitialCreate : DbMigration
     {
         public override void Up()
         {
@@ -12,12 +12,14 @@ namespace SilentAuction.Migrations
                 c => new
                     {
                         AuctionPrizeId = c.Int(nullable: false, identity: true),
+                        Name = c.String(),
                         ActualValue = c.Double(nullable: false),
                         MinimumBid = c.Double(nullable: false),
                         BidIncrement = c.Double(nullable: false),
                         CurrentBid = c.Double(nullable: false),
                         Description = c.String(),
-                        Picture = c.String(),
+                        TopParticipant = c.Int(),
+                        Category = c.Int(nullable: false),
                         WinnerId = c.Int(),
                         AuctionId = c.Int(nullable: false),
                     })
@@ -139,21 +141,20 @@ namespace SilentAuction.Migrations
                         RaffleId = c.Int(nullable: false),
                         Value = c.Double(nullable: false),
                         Description = c.String(),
-                        Picture = c.String(),
+                        WinnerId = c.Int(),
                         CurrentTickets = c.Int(nullable: false),
-                        Winner_ParticipantId = c.Int(),
+                        Category = c.String(),
                     })
                 .PrimaryKey(t => t.RafflePrizeId)
                 .ForeignKey("dbo.Raffles", t => t.RaffleId, cascadeDelete: true)
-                .ForeignKey("dbo.Participants", t => t.Winner_ParticipantId)
-                .Index(t => t.RaffleId)
-                .Index(t => t.Winner_ParticipantId);
+                .Index(t => t.RaffleId);
             
             CreateTable(
                 "dbo.Raffles",
                 c => new
                     {
                         RaffleId = c.Int(nullable: false, identity: true),
+                        Day = c.DateTime(nullable: false),
                         StartTime = c.DateTime(nullable: false),
                         EndTime = c.DateTime(nullable: false),
                         TotalRaised = c.Double(nullable: false),
@@ -161,6 +162,7 @@ namespace SilentAuction.Migrations
                         Name = c.String(),
                         ManagerId = c.Int(nullable: false),
                         Description = c.String(),
+                        CostPerTicket = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.RaffleId)
                 .ForeignKey("dbo.Managers", t => t.ManagerId, cascadeDelete: true)
@@ -176,12 +178,51 @@ namespace SilentAuction.Migrations
                 .PrimaryKey(t => t.Id)
                 .Index(t => t.Name, unique: true, name: "RoleNameIndex");
             
+            CreateTable(
+                "dbo.tblAuctionPrizes",
+                c => new
+                    {
+                        AuctionPrizeId = c.Int(nullable: false, identity: true),
+                        ActualValue = c.Double(nullable: false),
+                        MinimumBid = c.Double(nullable: false),
+                        BidIncrement = c.Double(nullable: false),
+                        CurrentBid = c.Double(nullable: false),
+                        Description = c.String(),
+                        Picture = c.String(),
+                        TopParticipant = c.Int(),
+                        Category = c.String(),
+                        WinnerId = c.Int(),
+                        AuctionId = c.Int(nullable: false),
+                        ImagePath = c.String(),
+                    })
+                .PrimaryKey(t => t.AuctionPrizeId)
+                .ForeignKey("dbo.Auctions", t => t.AuctionId, cascadeDelete: true)
+                .Index(t => t.AuctionId);
+            
+            CreateTable(
+                "dbo.tblRafflePrizes",
+                c => new
+                    {
+                        RafflePrizeId = c.Int(nullable: false, identity: true),
+                        RaffleId = c.Int(nullable: false),
+                        Value = c.Double(nullable: false),
+                        Description = c.String(),
+                        ImagePath = c.String(),
+                        WinnerId = c.Int(),
+                        CurrentTickets = c.Int(nullable: false),
+                        Category = c.String(),
+                    })
+                .PrimaryKey(t => t.RafflePrizeId)
+                .ForeignKey("dbo.Raffles", t => t.RaffleId, cascadeDelete: true)
+                .Index(t => t.RaffleId);
+            
         }
         
         public override void Down()
         {
+            DropForeignKey("dbo.tblRafflePrizes", "RaffleId", "dbo.Raffles");
+            DropForeignKey("dbo.tblAuctionPrizes", "AuctionId", "dbo.Auctions");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
-            DropForeignKey("dbo.RafflePrizes", "Winner_ParticipantId", "dbo.Participants");
             DropForeignKey("dbo.RafflePrizes", "RaffleId", "dbo.Raffles");
             DropForeignKey("dbo.Raffles", "ManagerId", "dbo.Managers");
             DropForeignKey("dbo.Participants", "ApplicationUserId", "dbo.AspNetUsers");
@@ -191,9 +232,10 @@ namespace SilentAuction.Migrations
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
+            DropIndex("dbo.tblRafflePrizes", new[] { "RaffleId" });
+            DropIndex("dbo.tblAuctionPrizes", new[] { "AuctionId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
             DropIndex("dbo.Raffles", new[] { "ManagerId" });
-            DropIndex("dbo.RafflePrizes", new[] { "Winner_ParticipantId" });
             DropIndex("dbo.RafflePrizes", new[] { "RaffleId" });
             DropIndex("dbo.Participants", new[] { "ApplicationUserId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
@@ -204,6 +246,8 @@ namespace SilentAuction.Migrations
             DropIndex("dbo.Managers", new[] { "ApplicationUserId" });
             DropIndex("dbo.Auctions", new[] { "ManagerId" });
             DropIndex("dbo.AuctionPrizes", new[] { "AuctionId" });
+            DropTable("dbo.tblRafflePrizes");
+            DropTable("dbo.tblAuctionPrizes");
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.Raffles");
             DropTable("dbo.RafflePrizes");

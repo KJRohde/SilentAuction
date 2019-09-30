@@ -81,7 +81,7 @@ namespace SilentAuction.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToAction("Index", "Home", new { email = model.Email });
+                    return RedirectToAction("Index", "Home", new { email = model.Email.ToString() });
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:

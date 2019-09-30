@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -11,9 +12,11 @@ namespace SilentAuction.Models
     {
         [Key]
         public int RaffleId { get; set; }
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.Date)]
+        public DateTime Day { get; set; }
+        [DataType(DataType.Time)]
         public DateTime StartTime { get; set; }
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.Time)]
         public DateTime EndTime { get; set; }
         public double TotalRaised { get; set; }
         public string Donors { get; set; }
@@ -22,5 +25,6 @@ namespace SilentAuction.Models
         public int ManagerId { get; set; }
         public Manager Manager { get; set; }
         public string Description { get; set; }
+        public int CostPerTicket { get; set; }
     }
 }

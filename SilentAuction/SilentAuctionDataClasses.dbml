@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="aspnet-SilentAuction-20190925081128" Class="SilentAuctionDataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=(LocalDb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\aspnet-SilentAuction-20190925081128.mdf;Initial Catalog=aspnet-SilentAuction-20190925081128;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="DefaultConnection" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.tblAuctionPrizes" Member="tblAuctionPrizes">
+    <Type Name="tblAuctionPrize">
+      <Column Name="AuctionPrizeId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ActualValue" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="MinimumBid" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="BidIncrement" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="CurrentBid" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Picture" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="TopParticipant" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Category" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="WinnerId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="AuctionId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ImagePath" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblRafflePrizes" Member="tblRafflePrizes">
+    <Type Name="tblRafflePrize">
+      <Column Name="RafflePrizeId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="RaffleId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Value" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="ImagePath" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="WinnerId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CurrentTickets" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Category" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+</Database>

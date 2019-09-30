@@ -48,6 +48,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -174,14 +175,26 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="Controllers\ParticipantController.cs" />
+    <Compile Include="Controllers\RaffleController.cs" />
+    <Compile Include="Migrations\201909301540556_InitialCreate.cs" />
+    <Compile Include="Migrations\201909301540556_InitialCreate.Designer.cs">
+      <DependentUpon>201909301540556_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909301541447_init.cs" />
+    <Compile Include="Migrations\201909301541447_init.Designer.cs">
+      <DependentUpon>201909301541447_init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\tblAuctionPrize.cs" />
+    <Compile Include="Models\tblRafflePrize.cs" />
+    <Compile Include="SilentAuctionDataClasses.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SilentAuctionDataClasses.dbml</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201909261548378_init.cs" />
-    <Compile Include="Migrations\201909261548378_init.Designer.cs">
-      <DependentUpon>201909261548378_init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AuctionPrize.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -196,6 +209,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\aspnet-SilentAuction-20190925081128.mdf" />
+    <Content Include="App_Data\aspnet-SilentAuction-20190925081128_log.ldf">
+      <DependentUpon>aspnet-SilentAuction-20190925081128.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -206,6 +223,14 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="SilentAuctionDataClasses.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>SilentAuctionDataClasses.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="SilentAuctionDataClasses.dbml.layout">
+      <DependentUpon>SilentAuctionDataClasses.dbml</DependentUpon>
+    </None>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -258,13 +283,17 @@
     <Content Include="Views\Manager\Edit.cshtml" />
     <Content Include="Views\Auction\Create.cshtml" />
     <Content Include="Views\Auction\Index.cshtml" />
-    <Content Include="Views\Auction\AddItem.cshtml" />
-    <Content Include="Views\Auction\Continue.cshtml" />
+    <Content Include="Views\AuctionPrize\Continue.cshtml" />
+    <Content Include="Views\Home\ContactForm.cshtml" />
+    <Content Include="Views\Participant\Index.cshtml" />
+    <Content Include="Views\AuctionPrize\Bid.cshtml" />
+    <Content Include="Views\Auction\Participate.cshtml" />
+    <Content Include="Views\Participant\Create.cshtml" />
+    <Content Include="Views\AuctionPrize\AddItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="Views\AuctionPrize\" />
-    <Folder Include="Views\Participant\" />
+    <Folder Include="UserImages\" />
+    <Folder Include="Views\Raffle\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -280,8 +309,14 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201909261548378_init.resx">
-      <DependentUpon>201909261548378_init.cs</DependentUpon>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201909301540556_InitialCreate.resx">
+      <DependentUpon>201909301540556_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909301541447_init.resx">
+      <DependentUpon>201909301541447_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
