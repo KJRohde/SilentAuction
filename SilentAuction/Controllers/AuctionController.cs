@@ -51,6 +51,7 @@ namespace SilentAuction.Controllers
         public async System.Threading.Tasks.Task<ActionResult> CloseAuctionAsync(int auctionId)
         {
             var auction = context.Auctions.FirstOrDefault(u => u.AuctionId == auctionId);
+            auction.EndTime = DateTime.Now;
             var prizes = context.AuctionPrizes.Where(p => p.AuctionId == auction.AuctionId).ToList();
 
             foreach (AuctionPrize prize in prizes)
@@ -96,7 +97,6 @@ namespace SilentAuction.Controllers
                             );
                         await client.SendAsync(mimeMessage);
                         await client.DisconnectAsync(true);
-                        return View(auction);
                     }
                 }
                 catch (Exception ex)
@@ -105,25 +105,13 @@ namespace SilentAuction.Controllers
 
                 }
             }
-            return View();
-        }
-        [HttpPost]
-        public async System.Threading.Tasks.Task<ActionResult> CloseAuctionAsync([Bind(Include = "Name,Description,StartTime,EndTime,Donors,AuctionId,ManagerId,Day,Message")] Auction auction, int auctionId)
-        {
-            Auction auctionToEdit = context.Auctions.FirstOrDefault(a => a.AuctionId == auctionId);
-            var prizes = context.AuctionPrizes.Where(p => p.AuctionId == auctionToEdit.AuctionId).ToList();
             foreach (AuctionPrize prize in prizes)
             {
-                prize.TopParticipant = prize.WinnerId;
+                prize.ParticipantId = prize.TopParticipant;
                 prize.Paid = false;
             }
             await context.SaveChangesAsync();
-            return RedirectToAction("EmailSent", "Manager");
-        }
-
-        public ActionResult SentEmail()
-        {
-            return View();
+            return RedirectToAction("CompletedAuctions", "Manager");
         }
     }
 }

@@ -20,8 +20,8 @@ namespace SilentAuction.Models
         public string Description { get; set; }
         public int? TopParticipant { get; set; }
         public ItemCategory Category { get; set; }
-        [ForeignKey("Winner")]
-        public int? WinnerId { get; set; }
+        [ForeignKey("Participant")]
+        public int? ParticipantId { get; set; }
         public Participant Participant { get; set; }
         [ForeignKey("Auction")]
         public int AuctionId { get; set; }

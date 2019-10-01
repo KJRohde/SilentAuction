@@ -85,6 +85,14 @@ namespace SilentAuction.Controllers
             }
             return View(manager);
         }
+
+        public ActionResult CompletedAuctions()
+        {
+            var currentUserId = User.Identity.GetUserId();
+            Manager manager = context.Managers.Where(m => m.ApplicationUserId == currentUserId).Single();
+            var completedAuctions = context.Auctions.Where(a => a.ManagerId == manager.ManagerId && a.EndTime < DateTime.Now).ToList();
+            return View(completedAuctions);
+        }
         //public async System.Threading.Tasks.Task<ActionResult> CloseAuctionAsync(int auctionId)
         //{
         //        var auction = context.Auctions.FirstOrDefault(u => u.AuctionId == auctionId);

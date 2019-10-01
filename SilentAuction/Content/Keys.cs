@@ -7,6 +7,7 @@ namespace SilentAuction.Content
 {
     public static class Keys
     {
-        public static string StripeKey = "sk_test_DKCKeeMEVfRlNWMSbv60zrrZ00bHq2Q90g";
+        public static string StripePublishableKey = "pk_test_SAXCgVG7p2HU2Ymis38kqREg00galaLYcT";
+        public static string StripeSecretKey = "sk_test_DKCKeeMEVfRlNWMSbv60zrrZ00bHq2Q90g";
     }
 }

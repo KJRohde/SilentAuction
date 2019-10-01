@@ -20,11 +20,14 @@ namespace SilentAuction.Migrations
                         Description = c.String(),
                         TopParticipant = c.Int(),
                         Category = c.Int(nullable: false),
-                        WinnerId = c.Int(),
+                        ParticipantId = c.Int(),
                         AuctionId = c.Int(nullable: false),
+                        Paid = c.Boolean(),
                     })
                 .PrimaryKey(t => t.AuctionPrizeId)
                 .ForeignKey("dbo.Auctions", t => t.AuctionId, cascadeDelete: true)
+                .ForeignKey("dbo.Participants", t => t.ParticipantId)
+                .Index(t => t.ParticipantId)
                 .Index(t => t.AuctionId);
             
             CreateTable(
@@ -227,6 +230,7 @@ namespace SilentAuction.Migrations
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
             DropForeignKey("dbo.RafflePrizes", "RaffleId", "dbo.Raffles");
             DropForeignKey("dbo.Raffles", "ManagerId", "dbo.Managers");
+            DropForeignKey("dbo.AuctionPrizes", "ParticipantId", "dbo.Participants");
             DropForeignKey("dbo.Participants", "ApplicationUserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AuctionPrizes", "AuctionId", "dbo.Auctions");
             DropForeignKey("dbo.Auctions", "ManagerId", "dbo.Managers");
@@ -248,6 +252,7 @@ namespace SilentAuction.Migrations
             DropIndex("dbo.Managers", new[] { "ApplicationUserId" });
             DropIndex("dbo.Auctions", new[] { "ManagerId" });
             DropIndex("dbo.AuctionPrizes", new[] { "AuctionId" });
+            DropIndex("dbo.AuctionPrizes", new[] { "ParticipantId" });
             DropTable("dbo.tblRafflePrizes");
             DropTable("dbo.tblAuctionPrizes");
             DropTable("dbo.AspNetRoles");

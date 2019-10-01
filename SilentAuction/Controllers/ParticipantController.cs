@@ -60,7 +60,7 @@ namespace SilentAuction.Controllers
         {
             var currentUserId = User.Identity.GetUserId();
             var participant = context.Participants.FirstOrDefault(p => p.ApplicationUserId == currentUserId);
-            var auctionPrizesWon = context.AuctionPrizes.Where(a => a.WinnerId == participant.ParticipantId);
+            var auctionPrizesWon = context.AuctionPrizes.Where(a => a.ParticipantId == participant.ParticipantId);
             return View(auctionPrizesWon);
         }
     }

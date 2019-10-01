@@ -1,6 +1,7 @@
 ﻿using MailKit.Net.Smtp;
 using Microsoft.AspNet.Identity;
 using MimeKit;
+using SilentAuction.Content;
 using SilentAuction.Models;
 using Stripe;
 using System;
@@ -55,7 +56,7 @@ namespace SilentAuction.Controllers
             auctionPrize.AuctionId = auction.AuctionId;
             auctionPrize.CurrentBid = auctionPrize.MinimumBid - auctionPrize.BidIncrement;
             auctionPrize.TopParticipant = null;
-            auctionPrize.WinnerId = null;
+            auctionPrize.ParticipantId = null;
 
 
             context.AuctionPrizes.Add(auctionPrize);
@@ -72,16 +73,20 @@ namespace SilentAuction.Controllers
         public ActionResult Pay(int id)
         {
             {
+                var key = Keys.StripePublishableKey;
+                ViewBag.StripePublishableKey = key;
                 var auctionPrize = context.AuctionPrizes.FirstOrDefault(m => m.AuctionPrizeId == id);
                 return View(auctionPrize);
             }
         }
 
         [HttpPost]
-        public ActionResult Pay(string stripeEmail, string stripeToken, AuctionPrize auctionPrize)
+        public ActionResult Pay(string stripeEmail, string stripeToken, int id)
         {
+            var auctionPrize = context.AuctionPrizes.FirstOrDefault(m => m.AuctionPrizeId == id);
             var customers = new CustomerService();
             var charges = new ChargeService();
+            StripeConfiguration.ApiKey = Keys.StripeSecretKey;
             var customer = customers.Create(new CustomerCreateOptions
             {
                 Email = stripeEmail,
@@ -90,17 +95,18 @@ namespace SilentAuction.Controllers
 
             var currentUserId = User.Identity.GetUserId().ToString();
             var participant = context.Participants.FirstOrDefault(m => m.ApplicationUserId == currentUserId);
+            var bid = auctionPrize.CurrentBid * 100;
 
             var charge = charges.Create(new ChargeCreateOptions
             {
-                Amount = Convert.ToInt64(auctionPrize.CurrentBid),
+                Amount = Convert.ToInt64(bid),
                 Description = auctionPrize.Name,
                 Currency = "usd",
                 CustomerId = customer.Id
             });
             auctionPrize.Paid = true;
             context.SaveChanges();
-            return View();
+            return RedirectToAction("ViewPrizesWon", "Participant");
         }
     }
 }

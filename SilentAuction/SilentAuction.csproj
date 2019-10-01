@@ -190,9 +190,9 @@
     <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="Controllers\ParticipantController.cs" />
     <Compile Include="Controllers\RaffleController.cs" />
-    <Compile Include="Migrations\201909302021252_init.cs" />
-    <Compile Include="Migrations\201909302021252_init.Designer.cs">
-      <DependentUpon>201909302021252_init.cs</DependentUpon>
+    <Compile Include="Migrations\201910011819130_init.cs" />
+    <Compile Include="Migrations\201910011819130_init.Designer.cs">
+      <DependentUpon>201910011819130_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\tblAuctionPrize.cs" />
@@ -300,9 +300,9 @@
     <Content Include="Views\Auction\Participate.cshtml" />
     <Content Include="Views\Participant\Create.cshtml" />
     <Content Include="Views\AuctionPrize\AddItem.cshtml" />
-    <Content Include="Views\Manager\SentEmail.cshtml" />
     <Content Include="Views\Participant\ViewPrizesWon.cshtml" />
     <Content Include="Views\AuctionPrize\Pay.cshtml" />
+    <Content Include="Views\Manager\CompletedAuctions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="UserImages\" />
@@ -325,8 +325,8 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201909302021252_init.resx">
-      <DependentUpon>201909302021252_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201910011819130_init.resx">
+      <DependentUpon>201910011819130_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
