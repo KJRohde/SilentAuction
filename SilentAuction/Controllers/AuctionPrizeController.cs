@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity;
 using MimeKit;
 using SilentAuction.Models;
+using Stripe;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace SilentAuction.Controllers
             return View(auctionprize);
         }
         [HttpPost]
-        public ActionResult Bid([Bind(Include = "AuctionPrizeId,ActualValue,MinimumBid,BidIncrement,CurrentBid,Description,TopParticipant,Category,WinnerId,AuctionId")]AuctionPrize auctionPrize, int id)
+        public ActionResult Bid([Bind(Include = "AuctionPrizeId,ActualValue,MinimumBid,BidIncrement,CurrentBid,Description,TopParticipant,Category,WinnerId,AuctionId,Participant,Paid")]AuctionPrize auctionPrize, int id)
         {
             try
             {
@@ -48,7 +49,7 @@ namespace SilentAuction.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddItem([Bind(Include = "AuctionPrizeId,Name,Description,ActualValue,MinimumBid,BidIncrement,CurrentBid,Picture,Winner,AuctionId,WinnerId,Category")] AuctionPrize auctionPrize, int id)
+        public ActionResult AddItem([Bind(Include = "AuctionPrizeId,Name,Description,ActualValue,MinimumBid,BidIncrement,CurrentBid,Picture,Participant,AuctionId,WinnerId,Category,Paid")] AuctionPrize auctionPrize, int id)
         {
             Auction auction = context.Auctions.FirstOrDefault(a => a.AuctionId == id);
             auctionPrize.AuctionId = auction.AuctionId;
@@ -68,64 +69,37 @@ namespace SilentAuction.Controllers
             Auction auction = context.Auctions.FirstOrDefault(a => a.AuctionId == id);
             return View(auction);
         }
-        public async System.Threading.Tasks.Task<ActionResult> EmailWinnersAsync(int auctionId)
+        public ActionResult Pay(int id)
         {
-            var auction = context.Auctions.FirstOrDefault(u => u.AuctionId == auctionId);
-            var prizes = context.AuctionPrizes.Where(p => p.AuctionId == auction.AuctionId).ToList();
-            foreach (AuctionPrize prize in prizes)
             {
-                Participant winner = context.Participants.FirstOrDefault(w => w.ParticipantId == prize.WinnerId);
-                try
-                {
-                    //From Address    
-                    string FromAddress = "DCCSilentAuction";
-                    string FromAdressTitle = "Silent Auction App";
-                    //To Address    
-                    string ToAddress = winner.EmailAddress;
-                    string ToAdressTitle = "Winner";
-                    string Subject = "You're a Winner!";
-                    string BodyContent = prize.Auction.Message;
-
-                    //Smtp Server    
-                    string SmtpServer = "smtp.gmail.com";
-                    //Smtp Port Number    
-                    int SmtpPortNumber = 587;
-
-                    var mimeMessage = new MimeMessage();
-                    mimeMessage.From.Add(new MailboxAddress
-                                            (FromAdressTitle,
-                                             FromAddress
-                                             ));
-                    mimeMessage.To.Add(new MailboxAddress
-                                             (ToAdressTitle,
-                                             ToAddress
-                                             ));
-                    mimeMessage.Subject = Subject; //Subject  
-                    mimeMessage.Body = new TextPart("plain")
-                    {
-                        Text = BodyContent
-                    };
-
-                    using (var client = new SmtpClient())
-                    {
-                        client.Connect(SmtpServer, SmtpPortNumber, false);
-                        client.Authenticate(
-                            "myname@company.com",
-                            "MYPassword"
-                            );
-                        await client.SendAsync(mimeMessage);
-                        Console.WriteLine("The mail has been sent successfully !!");
-                        Console.ReadLine();
-                        await client.DisconnectAsync(true);
-                        return RedirectToAction("SentEmail", "Manager");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                    
-                }
+                var auctionPrize = context.AuctionPrizes.FirstOrDefault(m => m.AuctionPrizeId == id);
+                return View(auctionPrize);
             }
+        }
+
+        [HttpPost]
+        public ActionResult Pay(string stripeEmail, string stripeToken, AuctionPrize auctionPrize)
+        {
+            var customers = new CustomerService();
+            var charges = new ChargeService();
+            var customer = customers.Create(new CustomerCreateOptions
+            {
+                Email = stripeEmail,
+                Source = stripeToken
+            });
+
+            var currentUserId = User.Identity.GetUserId().ToString();
+            var participant = context.Participants.FirstOrDefault(m => m.ApplicationUserId == currentUserId);
+
+            var charge = charges.Create(new ChargeCreateOptions
+            {
+                Amount = Convert.ToInt64(auctionPrize.CurrentBid),
+                Description = auctionPrize.Name,
+                Currency = "usd",
+                CustomerId = customer.Id
+            });
+            auctionPrize.Paid = true;
+            context.SaveChanges();
             return View();
         }
     }

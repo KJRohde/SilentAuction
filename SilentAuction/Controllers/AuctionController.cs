@@ -115,6 +115,7 @@ namespace SilentAuction.Controllers
             foreach (AuctionPrize prize in prizes)
             {
                 prize.TopParticipant = prize.WinnerId;
+                prize.Paid = false;
             }
             await context.SaveChangesAsync();
             return RedirectToAction("EmailSent", "Manager");

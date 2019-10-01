@@ -56,5 +56,12 @@ namespace SilentAuction.Controllers
 
             return View(participant);
         }
+        public ActionResult ViewPrizesWon()
+        {
+            var currentUserId = User.Identity.GetUserId();
+            var participant = context.Participants.FirstOrDefault(p => p.ApplicationUserId == currentUserId);
+            var auctionPrizesWon = context.AuctionPrizes.Where(a => a.WinnerId == participant.ParticipantId);
+            return View(auctionPrizesWon);
+        }
     }
 }

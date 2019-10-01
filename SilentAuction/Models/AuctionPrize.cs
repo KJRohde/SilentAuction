@@ -20,10 +20,13 @@ namespace SilentAuction.Models
         public string Description { get; set; }
         public int? TopParticipant { get; set; }
         public ItemCategory Category { get; set; }
+        [ForeignKey("Winner")]
         public int? WinnerId { get; set; }
+        public Participant Participant { get; set; }
         [ForeignKey("Auction")]
         public int AuctionId { get; set; }
         public Auction Auction { get; set; }
+        public bool? Paid { get; set; }
         //[DisplayName("Upload Image File")]
         //public string ImagePath { get; set; }
         //[NotMapped]

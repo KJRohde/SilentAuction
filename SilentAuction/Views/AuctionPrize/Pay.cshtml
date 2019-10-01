@@ -1,0 +1,63 @@
+﻿@model SilentAuction.Models.AuctionPrize
+@{
+    ViewBag.Title = "Pay";
+}
+
+    <h2>Payment for @Html.DisplayFor(Model => Model.Name)</h2>
+
+<div>
+    <h4>Item Details</h4>
+
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Category)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Category)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ActualValue)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ActualValue)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CurrentBid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CurrentBid)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Paid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Paid)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Pay Now" class="btn btn-default" /> ||
+            @Html.ActionLink("Back to List", "Index", "Participant")
+        </div>
+
+</p>
