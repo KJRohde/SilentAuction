@@ -138,6 +138,19 @@ namespace SilentAuction.Migrations
                 .Index(t => t.ApplicationUserId);
             
             CreateTable(
+                "dbo.Data",
+                c => new
+                    {
+                        DataId = c.Int(nullable: false, identity: true),
+                        Time = c.Double(nullable: false),
+                        Money = c.Double(nullable: false),
+                        AuctionId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.DataId)
+                .ForeignKey("dbo.Auctions", t => t.AuctionId, cascadeDelete: true)
+                .Index(t => t.AuctionId);
+            
+            CreateTable(
                 "dbo.RafflePrizes",
                 c => new
                     {
@@ -230,6 +243,7 @@ namespace SilentAuction.Migrations
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
             DropForeignKey("dbo.RafflePrizes", "RaffleId", "dbo.Raffles");
             DropForeignKey("dbo.Raffles", "ManagerId", "dbo.Managers");
+            DropForeignKey("dbo.Data", "AuctionId", "dbo.Auctions");
             DropForeignKey("dbo.AuctionPrizes", "ParticipantId", "dbo.Participants");
             DropForeignKey("dbo.Participants", "ApplicationUserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AuctionPrizes", "AuctionId", "dbo.Auctions");
@@ -243,6 +257,7 @@ namespace SilentAuction.Migrations
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
             DropIndex("dbo.Raffles", new[] { "ManagerId" });
             DropIndex("dbo.RafflePrizes", new[] { "RaffleId" });
+            DropIndex("dbo.Data", new[] { "AuctionId" });
             DropIndex("dbo.Participants", new[] { "ApplicationUserId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
@@ -258,6 +273,7 @@ namespace SilentAuction.Migrations
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.Raffles");
             DropTable("dbo.RafflePrizes");
+            DropTable("dbo.Data");
             DropTable("dbo.Participants");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetUserLogins");

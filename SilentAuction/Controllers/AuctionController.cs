@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using static SilentAuction.Models.LineChart;
 
 namespace SilentAuction.Controllers
 {
@@ -28,11 +29,12 @@ namespace SilentAuction.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create([Bind(Include = "Name,Description,StartTime,EndTime,Donors,AuctionId,ManagerId,Day,Message")] Auction auction)
+        public ActionResult Create([Bind(Include = "Name,Description,StartTime,EndTime,Donors,AuctionId,ManagerId,Day,Message,ChartData,TotalRaised")] Auction auction)
         {
             var currentUserId = User.Identity.GetUserId();
             Manager manager = context.Managers.FirstOrDefault(m => m.ApplicationUserId == currentUserId);
             auction.ManagerId = manager.ManagerId;
+            auction.TotalRaised = 0;
             if (manager.ApplicationUserId == currentUserId)
             {
                 context.Auctions.Add(auction);

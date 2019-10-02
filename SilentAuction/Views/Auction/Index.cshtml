@@ -48,13 +48,13 @@
         <dd>
             @Html.DisplayFor(model => model.Donors)
         </dd>
-        </dl>
+    </dl>
 </div>
 <p>
     @Html.ActionLink("Edit Information", "Edit") ||
     @Html.ActionLink("Add Auction Items", "AddItem", "AuctionPrize", new { id = Model.AuctionId }, null) ||
     @Html.ActionLink("View Auction Items", "ViewItems") ||
-
+    @Html.ActionLink("View Chart", "Index", "LineChart", new { id = Model.AuctionId }, null) ||
 </p>
 <br />
 <p>

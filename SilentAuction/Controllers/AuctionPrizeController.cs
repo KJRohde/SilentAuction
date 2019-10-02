@@ -1,6 +1,7 @@
 ﻿using MailKit.Net.Smtp;
 using Microsoft.AspNet.Identity;
 using MimeKit;
+using Newtonsoft.Json;
 using SilentAuction.Content;
 using SilentAuction.Models;
 using Stripe;
@@ -8,7 +9,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
+using static SilentAuction.Models.LineChart;
 
 namespace SilentAuction.Controllers
 {
@@ -33,7 +36,19 @@ namespace SilentAuction.Controllers
                 auctionPrize = context.AuctionPrizes.FirstOrDefault(a => a.AuctionPrizeId == id);
                 var currentUserId = User.Identity.GetUserId();
                 Participant participant = context.Participants.FirstOrDefault(p => p.ApplicationUserId == currentUserId);
-                auctionPrize.CurrentBid += auctionPrize.BidIncrement;
+                Auction auction = context.Auctions.FirstOrDefault(u => u.AuctionId == auctionPrize.AuctionId);
+                if (auctionPrize.CurrentBid == 0)
+                {
+                    auctionPrize.CurrentBid += auctionPrize.MinimumBid;
+                    auction.TotalRaised += auctionPrize.MinimumBid;
+                }
+                else
+                {
+                    auctionPrize.CurrentBid += auctionPrize.BidIncrement;
+                    auction.TotalRaised += auctionPrize.BidIncrement;
+                }
+                
+                AddDataPoint(auction);
                 auctionPrize.TopParticipant = participant.ParticipantId;
                 context.SaveChanges();
                 return RedirectToAction("Index", "Participant");
@@ -54,7 +69,7 @@ namespace SilentAuction.Controllers
         {
             Auction auction = context.Auctions.FirstOrDefault(a => a.AuctionId == id);
             auctionPrize.AuctionId = auction.AuctionId;
-            auctionPrize.CurrentBid = auctionPrize.MinimumBid - auctionPrize.BidIncrement;
+            auctionPrize.CurrentBid = 0;
             auctionPrize.TopParticipant = null;
             auctionPrize.ParticipantId = null;
 
@@ -107,6 +122,16 @@ namespace SilentAuction.Controllers
             auctionPrize.Paid = true;
             context.SaveChanges();
             return RedirectToAction("ViewPrizesWon", "Participant");
+        }
+        public Data AddDataPoint(Auction auction)
+        {
+            Data data = new Data();
+            data.Time = DateTime.Now.Ticks;
+            data.Money = auction.TotalRaised;
+            data.AuctionId = auction.AuctionId;
+            context.Data.Add(data);
+            context.SaveChanges();
+            return data;
         }
     }
 }
