@@ -1,0 +1,47 @@
+﻿@model IEnumerable<SilentAuction.Models.AuctionPrize>
+@{
+    ViewBag.Title = "Participate";
+}
+<br />
+<br />
+<br />
+<h2>Available Items</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Item Name
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Item Value
+        </th>
+        <th>
+            Current Top Bid
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActualValue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrentBid)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.AuctionPrizeId })
+            </td>
+        </tr>
+    }
+</table>

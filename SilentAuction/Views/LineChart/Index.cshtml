@@ -1,12 +1,7 @@
-﻿@model SilentAuction.Models.Auction
-@{
-    Layout = null;
-}
-
-<!DOCTYPE HTML>
+﻿<!DOCTYPE HTML>
 <html>
 <head>
-    <script>
+    <script type="text/javascript">
 window.onload = function () {
 
 var chart = new CanvasJS.Chart("chartContainer", {
@@ -14,9 +9,10 @@ var chart = new CanvasJS.Chart("chartContainer", {
 	title: {
 		text: "Auction Progress"
 	},
-	axisX: {
-        valueFormatString: "hh:MM TT"
-	},
+    axisX: {
+        title: "Time",
+        includeZero: false
+    },
 	axisY: {
 		title: "Money Raised",
 		prefix: "$",
@@ -24,8 +20,8 @@ var chart = new CanvasJS.Chart("chartContainer", {
 	},
 	data: [{
 		type: "spline",
-		xValueType: "dateTime",
-		xValueFormatString: "hh:MM TT",
+        xValueType: "dateTime",
+        xValueFormatString: "hh:mm TT",
 		yValueFormatString: "$#,###",
 		dataPoints: @Html.Raw(ViewBag.DataPoints)
 	}]
@@ -34,9 +30,9 @@ chart.render();
 
 }
     </script>
+    <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 </head>
 <body>
     <div id="chartContainer" style="height: 370px; width: 100%;"></div>
-    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 </body>
 </html>
