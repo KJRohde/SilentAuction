@@ -199,9 +199,9 @@
     <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="Controllers\ParticipantController.cs" />
     <Compile Include="Controllers\RaffleController.cs" />
-    <Compile Include="Migrations\201910021937501_init.cs" />
-    <Compile Include="Migrations\201910021937501_init.Designer.cs">
-      <DependentUpon>201910021937501_init.cs</DependentUpon>
+    <Compile Include="Migrations\201910031541110_init.cs" />
+    <Compile Include="Migrations\201910031541110_init.Designer.cs">
+      <DependentUpon>201910031541110_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Data.cs" />
@@ -342,8 +342,8 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201910021937501_init.resx">
-      <DependentUpon>201910021937501_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201910031541110_init.resx">
+      <DependentUpon>201910031541110_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

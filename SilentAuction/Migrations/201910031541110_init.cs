@@ -19,7 +19,7 @@ namespace SilentAuction.Migrations
                         CurrentBid = c.Double(nullable: false),
                         Description = c.String(),
                         TopParticipant = c.Int(),
-                        Category = c.Int(nullable: false),
+                        Category = c.String(),
                         ParticipantId = c.Int(),
                         AuctionId = c.Int(nullable: false),
                         Paid = c.Boolean(),

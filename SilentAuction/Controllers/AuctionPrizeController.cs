@@ -36,6 +36,7 @@ namespace SilentAuction.Controllers
                 auctionPrize = context.AuctionPrizes.FirstOrDefault(a => a.AuctionPrizeId == id);
                 var currentUserId = User.Identity.GetUserId();
                 Participant participant = context.Participants.FirstOrDefault(p => p.ApplicationUserId == currentUserId);
+                Participant outbidParticipant = context.Participants.FirstOrDefault(o => o.ParticipantId == auctionPrize.TopParticipant);
                 Auction auction = context.Auctions.FirstOrDefault(u => u.AuctionId == auctionPrize.AuctionId);
                 if (auctionPrize.CurrentBid == 0)
                 {
@@ -46,8 +47,13 @@ namespace SilentAuction.Controllers
                 {
                     auctionPrize.CurrentBid += auctionPrize.BidIncrement;
                     auction.TotalRaised += auctionPrize.BidIncrement;
+                    outbidParticipant.RecentActionThree = outbidParticipant.RecentActionTwo;
+                    outbidParticipant.RecentActionTwo = outbidParticipant.RecentActionOne;
+                    outbidParticipant.RecentActionOne = "You have been outbid on" + auctionPrize.Name + ".";
                 }
-                
+                participant.RecentActionThree = participant.RecentActionTwo;
+                participant.RecentActionTwo = participant.RecentActionOne;
+                participant.RecentActionOne = "You have bid $" + auctionPrize.CurrentBid + " on" + auctionPrize.Name + ".";
                 AddDataPoint(auction);
                 auctionPrize.TopParticipant = participant.ParticipantId;
                 context.SaveChanges();

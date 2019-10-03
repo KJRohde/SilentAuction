@@ -19,7 +19,7 @@ namespace SilentAuction.Models
         public double CurrentBid { get; set; }
         public string Description { get; set; }
         public int? TopParticipant { get; set; }
-        public ItemCategory Category { get; set; }
+        public string Category { get; set; }
         [ForeignKey("Participant")]
         public int? ParticipantId { get; set; }
         public Participant Participant { get; set; }

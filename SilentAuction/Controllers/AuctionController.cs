@@ -45,7 +45,7 @@ namespace SilentAuction.Controllers
 
             return View(auction);
         }
-        
+
         public ActionResult Participate(int id)
         {
             var auctionItems = context.AuctionPrizes.Where(a => a.AuctionId == id).ToList();
@@ -69,7 +69,7 @@ namespace SilentAuction.Controllers
                     string ToAddress = winner.EmailAddress;
                     string ToAdressTitle = "Winner";
                     string Subject = "You're a Winner!";
-                    string BodyContent = winner.FirstName+" "+ winner.LastName+",\nYou have won the following prize!\nName: "+ prize.Name+ "\nDescription: "+ prize.Description +"\nBid: "+ prize.CurrentBid + "\nPayments can be made in your 'Prizes Won' tab in the app.\n"+ prize.Auction.Message;
+                    string BodyContent = winner.FirstName + " " + winner.LastName + ",\nYou have won the following prize!\nName: " + prize.Name + "\nDescription: " + prize.Description + "\nBid: " + prize.CurrentBid + "\nPayments can be made in your 'Prizes Won' tab in the app.\n" + prize.Auction.Message;
 
                     //Smtp Server    
                     string SmtpServer = "smtp.gmail.com";
@@ -152,6 +152,63 @@ namespace SilentAuction.Controllers
         {
             var prizes = context.AuctionPrizes.Where(p => p.AuctionId == id);
             return View(prizes);
+        }
+        public async System.Threading.Tasks.Task<ActionResult> EmailBlastAsync(int auctionId)
+        {
+            var auction = context.Auctions.FirstOrDefault(a => a.AuctionId == auctionId);
+            var participants = context.Participants.ToList();
+
+            foreach (Participant participant in participants)
+            {
+                try
+                {
+                    //From Address    
+                    string FromAddress = "DCCSilentAuction@gmail.com";
+                    string FromAdressTitle = "Silent Auction App";
+                    //To Address    
+                    string ToAddress = participant.EmailAddress;
+                    string ToAdressTitle = "Winner";
+                    string Subject = "Live Silent Auction!";
+                    string BodyContent = participant.FirstName + " " + participant.LastName + ",\nThere is currently a silent auction live on the Silent Auction App! Check your account portal for the auction, " + auction.Name + " to win some fabulous prizes!";
+
+                    //Smtp Server    
+                    string SmtpServer = "smtp.gmail.com";
+                    //Smtp Port Number    
+                    int SmtpPortNumber = 587;
+
+                    var mimeMessage = new MimeMessage();
+                    mimeMessage.From.Add(new MailboxAddress
+                                            (FromAdressTitle,
+                                             FromAddress
+                                             ));
+                    mimeMessage.To.Add(new MailboxAddress
+                                             (ToAdressTitle,
+                                             ToAddress
+                                             ));
+                    mimeMessage.Subject = Subject; //Subject  
+                    mimeMessage.Body = new TextPart("plain")
+                    {
+                        Text = BodyContent
+                    };
+
+                    using (var client = new SmtpClient())
+                    {
+                        client.Connect(SmtpServer, SmtpPortNumber, false);
+                        client.Authenticate(
+                            "DCCSilentAuction@gmail.com",
+                            "!234Qwer"
+                            );
+                        await client.SendAsync(mimeMessage);
+                        await client.DisconnectAsync(true);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+            }
+            return RedirectToAction("Index", "Auction", new { id = auctionId });
         }
     }
 }
