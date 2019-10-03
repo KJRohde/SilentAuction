@@ -1,7 +1,8 @@
-﻿@model SilentAuction.Models.Auction
+﻿@model SilentAuction.Models.Raffle
 @{
     ViewBag.Title = "Index";
 }
+
 
 <div>
     <h4>@Html.DisplayFor(Model => Model.Name)</h4>
@@ -50,12 +51,12 @@
 </div>
 <p>
     @Html.ActionLink("Edit Information", "Edit") ||
-    @Html.ActionLink("Add Auction Items", "AddItem", "AuctionPrize", new { id = Model.AuctionId }, null) ||
-    @Html.ActionLink("View Auction Prizes", "GetAuctionPrizes", new { id = Model.AuctionId }) ||
-    @Html.ActionLink("View Chart", "Index", "LineChart", new { id = Model.AuctionId }, null) ||
+    @Html.ActionLink("Add Raffle Items", "AddItem", "RafflePrize", new { id = Model.RaffleId }, null) ||
+    @Html.ActionLink("View Auction Prizes", "GetAuctionPrizes", new { id = Model.RaffleId }) ||
+    @Html.ActionLink("View Chart", "Index", "LineChart", new { id = Model.RaffleId }, null) ||
 </p>
 <br />
 <p>
-    @Html.ActionLink("Email Blast", "EmailBlastAsync", new {auctionId = Model.AuctionId} ) ||
-    @Html.ActionLink("Close Auction", "CloseAuctionAsync", new { auctionId = Model.AuctionId })
+    @Html.ActionLink("Email Blast", "EmailBlastAsync", new { auctionId = Model.RaffleId }) ||
+    @Html.ActionLink("Close Raffle", "CloseRaffleAsync", new { auctionId = Model.RaffleId })
 </p>

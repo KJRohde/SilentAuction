@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
+using SilentAuction.Content;
 using SilentAuction.Models;
+using Stripe;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +17,13 @@ namespace SilentAuction.Controllers
         // GET: Participants
         public ActionResult Index()
         {
+            var currentUserId = User.Identity.GetUserId();
+            var participant = context.Participants.FirstOrDefault(p => p.ApplicationUserId == currentUserId);
             var myModel = new ViewModel
             {
                 Auctions = context.Auctions.Where(s => s.StartTime <= DateTime.Now && s.EndTime >= DateTime.Now && s.Day == DateTime.Today).ToList(),
-                Raffles = context.Raffles.Where(s => s.StartTime <= DateTime.Now && s.EndTime >= DateTime.Now && s.Day == DateTime.Today).ToList()
+                Raffles = context.Raffles.Where(s => s.StartTime <= DateTime.Now && s.EndTime >= DateTime.Now && s.Day == DateTime.Today).ToList(),
+                ParticipantActions = context.ParticipantActions.OrderByDescending(s => s.Time).Where(s => s.ParticipantId == participant.ParticipantId).Take(3)
             };
             return View(myModel);
         }
@@ -62,6 +67,72 @@ namespace SilentAuction.Controllers
             var participant = context.Participants.FirstOrDefault(p => p.ApplicationUserId == currentUserId);
             var auctionPrizesWon = context.AuctionPrizes.Where(a => a.ParticipantId == participant.ParticipantId);
             return View(auctionPrizesWon);
+        }
+        public ActionResult GetActionHistory()
+        {
+            var currentUserId = User.Identity.GetUserId();
+            var participant = context.Participants.FirstOrDefault(p => p.ApplicationUserId == currentUserId);
+            var fullHistory = context.ParticipantActions.Where(a => a.ParticipantId == participant.ParticipantId);
+            return View(fullHistory);
+        }
+        public ActionResult BuyTickets(int id)
+        {
+            var currentUserId = User.Identity.GetUserId();
+            var participant = context.Participants.FirstOrDefault(p => p.ApplicationUserId == currentUserId);
+            var myModel = new ViewModel
+            {
+                Raffle = context.Raffles.FirstOrDefault(r => r.RaffleId == id),
+                Participant = context.Participants.FirstOrDefault(s => s.ParticipantId == participant.ParticipantId)
+            };
+            return View(myModel);
+        }
+        public ActionResult BuyTickets( int id, int tickets)
+        {
+            {
+                var key = Keys.StripePublishableKey;
+                ViewBag.StripePublishableKey = key;
+                var raffle = context.Raffles.FirstOrDefault(r => r.RaffleId == id);
+                return View(raffle);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Pay(string stripeEmail, string stripeToken, int id, int tickets)
+        {
+            Raffle raffle = context.Raffles.FirstOrDefault(r => r.RaffleId == id);
+            double cost = tickets * raffle.CostPerTicket;
+            var customers = new CustomerService();
+            var charges = new ChargeService();
+            StripeConfiguration.ApiKey = Keys.StripeSecretKey;
+            var customer = customers.Create(new CustomerCreateOptions
+            {
+                Email = stripeEmail,
+                Source = stripeToken
+            });
+
+            var currentUserId = User.Identity.GetUserId().ToString();
+            var participant = context.Participants.FirstOrDefault(m => m.ApplicationUserId == currentUserId);
+
+            var charge = charges.Create(new ChargeCreateOptions
+            {
+                Amount = Convert.ToInt64(cost),
+                Description = raffle.Name,
+                Currency = "usd",
+                CustomerId = customer.Id
+            });
+            participant.RaffleTickets = tickets;
+            context.SaveChanges();
+            return RedirectToAction("Index", "Participant");
+        }
+        public Data AddDataPoint(Auction auction)
+        {
+            Data data = new Data();
+            data.Time = DateTime.Now.Ticks;
+            data.Money = auction.TotalRaised;
+            data.AuctionId = auction.AuctionId;
+            context.Data.Add(data);
+            context.SaveChanges();
+            return data;
         }
     }
 }

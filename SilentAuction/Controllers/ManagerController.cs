@@ -93,71 +93,62 @@ namespace SilentAuction.Controllers
             var completedAuctions = context.Auctions.Where(a => a.ManagerId == manager.ManagerId && a.EndTime < DateTime.Now).ToList();
             return View(completedAuctions);
         }
-        //public async System.Threading.Tasks.Task<ActionResult> CloseAuctionAsync(int auctionId)
-        //{
-        //        var auction = context.Auctions.FirstOrDefault(u => u.AuctionId == auctionId);
-        //        auction.EndTime = DateTime.Now;
-        //        context.SaveChanges();
-        //        var prizes = context.AuctionPrizes.Where(p => p.AuctionId == auction.AuctionId).ToList();
-        //        foreach (AuctionPrize prize in prizes)
-        //        {
-        //            Participant winner = context.Participants.FirstOrDefault(w => w.ParticipantId == prize.WinnerId);
-        //            try
-        //            {
-        //                //From Address    
-        //                string FromAddress = "DCCSilentAuction@gmail.com";
-        //                string FromAdressTitle = "Silent Auction App";
-        //                //To Address    
-        //                string ToAddress = winner.EmailAddress;
-        //                string ToAdressTitle = "Winner";
-        //                string Subject = "You're a Winner!";
-        //                string BodyContent = prize.Auction.Message;
+        public async System.Threading.Tasks.Task<ActionResult> EmailBlastAuctionAsync(int auctionId)
+        {
+            var auction = context.Auctions.FirstOrDefault(a => a.AuctionId == auctionId);
+            var participants = context.Participants.ToList();
 
-        //                //Smtp Server    
-        //                string SmtpServer = "smtp.gmail.com";
-        //                //Smtp Port Number    
-        //                int SmtpPortNumber = 587;
+            foreach (Participant participant in participants)
+            {
+                try
+                {
+                    //From Address    
+                    string FromAddress = "DCCSilentAuction@gmail.com";
+                    string FromAdressTitle = "Silent Auction App";
+                    //To Address    
+                    string ToAddress = participant.EmailAddress;
+                    string ToAdressTitle = "Winner";
+                    string Subject = "Live Silent Auction!";
+                    string BodyContent = participant.FirstName + " " + participant.LastName + ",\nThere is currently a silent auction live on the Silent Auction App! Check your account portal for the auction, " + auction.Name + " to win some fabulous prizes!";
 
-        //                var mimeMessage = new MimeMessage();
-        //                mimeMessage.From.Add(new MailboxAddress
-        //                                        (FromAdressTitle,
-        //                                         FromAddress
-        //                                         ));
-        //                mimeMessage.To.Add(new MailboxAddress
-        //                                         (ToAdressTitle,
-        //                                         ToAddress
-        //                                         ));
-        //                mimeMessage.Subject = Subject; //Subject  
-        //                mimeMessage.Body = new TextPart("plain")
-        //                {
-        //                    Text = BodyContent
-        //                };
+                    //Smtp Server    
+                    string SmtpServer = "smtp.gmail.com";
+                    //Smtp Port Number    
+                    int SmtpPortNumber = 587;
 
-        //                using (var client = new SmtpClient())
-        //                {
-        //                    client.Connect(SmtpServer, SmtpPortNumber, false);
-        //                    client.Authenticate(
-        //                        "DCCSilentAuction@gmail.com",
-        //                        "!234Qwer"
-        //                        );
-        //                    await client.SendAsync(mimeMessage);
-        //                    Console.WriteLine("The mail has been sent successfully !!");
-        //                    Console.ReadLine();
-        //                    await client.DisconnectAsync(true);
-        //                    return RedirectToAction("SentEmail", "Manager");
-        //                }
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                throw ex;
+                    var mimeMessage = new MimeMessage();
+                    mimeMessage.From.Add(new MailboxAddress
+                                            (FromAdressTitle,
+                                             FromAddress
+                                             ));
+                    mimeMessage.To.Add(new MailboxAddress
+                                             (ToAdressTitle,
+                                             ToAddress
+                                             ));
+                    mimeMessage.Subject = Subject; //Subject  
+                    mimeMessage.Body = new TextPart("plain")
+                    {
+                        Text = BodyContent
+                    };
 
-        //            }
-        //        }
-        //    return View();
-        //}
-        //public ActionResult SentEmail()
-        //{
-        //    return View();
-        //}
+                    using (var client = new SmtpClient())
+                    {
+                        client.Connect(SmtpServer, SmtpPortNumber, false);
+                        client.Authenticate(
+                            "DCCSilentAuction@gmail.com",
+                            "!234Qwer"
+                            );
+                        await client.SendAsync(mimeMessage);
+                        await client.DisconnectAsync(true);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+            }
+            return RedirectToAction("Index", "Auction", new { id = auctionId });
+        }
     }
 }

@@ -19,9 +19,6 @@ namespace SilentAuction.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int RaffleTickets { get; set; }
-        public string RecentActionOne { get; set; }
-        public string RecentActionTwo { get; set; }
-        public string RecentActionThree { get; set; }
 
     }
 }

@@ -199,13 +199,15 @@
     <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="Controllers\ParticipantController.cs" />
     <Compile Include="Controllers\RaffleController.cs" />
-    <Compile Include="Migrations\201910031541110_init.cs" />
-    <Compile Include="Migrations\201910031541110_init.Designer.cs">
-      <DependentUpon>201910031541110_init.cs</DependentUpon>
+    <Compile Include="Controllers\RafflePrizeController.cs" />
+    <Compile Include="Migrations\201910032133420_init.cs" />
+    <Compile Include="Migrations\201910032133420_init.Designer.cs">
+      <DependentUpon>201910032133420_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Data.cs" />
     <Compile Include="Models\LineChart.cs" />
+    <Compile Include="Models\ParticipantAction.cs" />
     <Compile Include="Models\tblAuctionPrize.cs" />
     <Compile Include="Models\tblRafflePrize.cs" />
     <Compile Include="SilentAuctionDataClasses.designer.cs">
@@ -319,11 +321,21 @@
     <Content Include="Views\Auction\Edit.cshtml" />
     <Content Include="Views\AuctionPrize\Edit.cshtml" />
     <Content Include="Views\AuctionPrize\Delete.cshtml" />
+    <Content Include="Views\Participant\GetActionHistory.cshtml" />
+    <Content Include="Views\Auction\EmailSent.cshtml" />
+    <Content Include="Views\Raffle\Create.cshtml" />
+    <Content Include="Views\Raffle\Edit.cshtml" />
+    <Content Include="Views\Raffle\Index.cshtml" />
+    <Content Include="Views\Raffle\EmailSent.cshtml" />
+    <Content Include="Views\RafflePrize\AddItem.cshtml" />
+    <Content Include="Views\RafflePrize\Continue.cshtml" />
+    <Content Include="Views\Raffle\BuyTickets.cshtml" />
+    <Content Include="Views\Participant\Pay.cshtml" />
+    <Content Include="Views\Raffle\Participate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="UserImages\" />
     <Folder Include="Views\Data\" />
-    <Folder Include="Views\Raffle\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -342,8 +354,8 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201910031541110_init.resx">
-      <DependentUpon>201910031541110_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201910032133420_init.resx">
+      <DependentUpon>201910032133420_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

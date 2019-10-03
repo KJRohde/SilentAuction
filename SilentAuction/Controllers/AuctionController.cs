@@ -208,7 +208,12 @@ namespace SilentAuction.Controllers
 
                 }
             }
-            return RedirectToAction("Index", "Auction", new { id = auctionId });
+            return RedirectToAction("EmailSent", "Auction", new { id = auctionId });
+        }
+        public ActionResult EmailSent(int id)
+        {
+            Auction auction = context.Auctions.FirstOrDefault(a => a.AuctionId == id);
+            return View(auction);
         }
     }
 }

@@ -11,6 +11,18 @@
 <br />
 <p>The current bid on this item is: @Html.DisplayFor(model => model.CurrentBid)</p>
 <br />
+    @{
+        if (Model.CurrentBid == 0)
+        {
+<p>By pressing the button below, you will bid @(Model.MinimumBid)</p>
+        }
+        else
+        {
+<p>By pressing the button below, you will bid @(Model.CurrentBid + Model.BidIncrement)</p>
+        }
+    }
+<br />
+
 <p>Going once... Going twice...</p>
 
 @using (Html.BeginForm())

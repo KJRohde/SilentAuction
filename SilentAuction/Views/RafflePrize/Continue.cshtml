@@ -1,0 +1,15 @@
+﻿@model SilentAuction.Models.Raffle
+@{
+    ViewBag.Title = "Continue";
+}
+
+<h2>Continue adding prizes?</h2>
+<br />
+
+<button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("AddItem", new { id = Model.RaffleId })'">Yes, add another prize</button>
+
+<br />
+<br />
+
+<button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "Raffle", new { id = Model.RaffleId })'">No more prizes for now</button>
+

@@ -1,0 +1,26 @@
+﻿@model SilentAuction.Models.ViewModel
+@{
+    ViewBag.Title = "BuyTickets";
+}
+
+<h2>Are you sure you would like to buy tickets for @Html.Display(Model.Raffle.Name)?</h2>
+
+<p>@Html.Display(Model.Raffle.Description)</p>
+<br />
+<p>The price per ticket is @Html.Display(Model.Raffle.CostPerTicket.ToString())</p>
+<br />
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal">
+        How many tikets would you like to purchase?
+        <div class="col-md-10">
+            @Html.EditorFor(model => Model.Participant.RaffleTickets, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => Model.Participant.RaffleTickets), "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="BuyTickets" class="btn btn-default" />
+        </div>
+    </div>

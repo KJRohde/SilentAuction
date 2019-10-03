@@ -49,7 +49,7 @@
     <td>
         @Html.ActionLink("Edit", "Edit", new { id = item.AuctionId }) ||
         @Html.ActionLink("Delete", "Delete", new { id = item.AuctionId }) ||
-        @Html.ActionLink("Add Item", "AddItem", "AuctionPrize", new { id = item.AuctionId }, null)
+        @Html.ActionLink("Add Item", "AddItem", "AuctionPrize", new { id = item.AuctionId }, null) ||
         @Html.ActionLink("Details", "Index", "Auction", new { id = item.AuctionId }, null)
     </td>
 </tr>
@@ -92,8 +92,10 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.RaffleId })
-                @Html.ActionLink("Delete", "Delete", new { id = item.RaffleId })
+                @Html.ActionLink("Edit", "Edit", new { id = item.RaffleId }) ||
+                @Html.ActionLink("Add Raffle Items", "AddItem", "RafflePrize", new { id = item.RaffleId }, null) ||
+                @Html.ActionLink("Delete", "Delete", new { id = item.RaffleId }) ||
+                @Html.ActionLink("Details", "Index", "Raffle", new { id = item.RaffleId }, null)
             </td>
         </tr>
     }

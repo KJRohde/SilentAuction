@@ -2,9 +2,6 @@
 @{
     ViewBag.Title = "Participate";
 }
-<br />
-<br />
-<br />
 <h2>Minimum Bid Available</h2>
 
 @using (Html.BeginForm("Index", "Employee", FormMethod.Get))
@@ -36,7 +33,7 @@
         <th></th>
     </tr>
 
-    @foreach (var item in Model.Where(m => m.CurrentBid > 0).ToList())
+    @foreach (var item in Model.Where(m => m.CurrentBid == 0).ToList())
     {
         <tr>
             <td>
@@ -95,7 +92,7 @@
         <th></th>
     </tr>
 
-    @foreach (var item in Model.Where(m => m.CurrentBid == 0).ToList())
+    @foreach (var item in Model.Where(m => m.CurrentBid > 0).ToList())
     {
         <tr>
             <td>

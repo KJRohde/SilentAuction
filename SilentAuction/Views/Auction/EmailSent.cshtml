@@ -1,0 +1,8 @@
+﻿@model SilentAuction.Models.Auction
+@{
+    ViewBag.Title = "EmailSent";
+}
+
+<h2>Email sent to all Participants for @Model.Name</h2>
+@Html.ActionLink("Back", "Index", new { id = Model.AuctionId } )
+

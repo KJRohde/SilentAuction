@@ -47,13 +47,17 @@ namespace SilentAuction.Controllers
                 {
                     auctionPrize.CurrentBid += auctionPrize.BidIncrement;
                     auction.TotalRaised += auctionPrize.BidIncrement;
-                    outbidParticipant.RecentActionThree = outbidParticipant.RecentActionTwo;
-                    outbidParticipant.RecentActionTwo = outbidParticipant.RecentActionOne;
-                    outbidParticipant.RecentActionOne = "You have been outbid on" + auctionPrize.Name + ".";
+                    ParticipantAction participantActionOutbid = new ParticipantAction();
+                    participantActionOutbid.ParticipantId = outbidParticipant.ParticipantId;
+                    participantActionOutbid.Action = "You have been outbid on " + auctionPrize.Name + ".";
+                    participantActionOutbid.Time = DateTime.Now;
+                    context.ParticipantActions.Add(participantActionOutbid);
                 }
-                participant.RecentActionThree = participant.RecentActionTwo;
-                participant.RecentActionTwo = participant.RecentActionOne;
-                participant.RecentActionOne = "You have bid $" + auctionPrize.CurrentBid + " on" + auctionPrize.Name + ".";
+                ParticipantAction participantActionBid = new ParticipantAction();
+                participantActionBid.ParticipantId = participant.ParticipantId;
+                participantActionBid.Action = "You have bid $" + auctionPrize.CurrentBid + " on " + auctionPrize.Name + ".";
+                participantActionBid.Time = DateTime.Now;
+                context.ParticipantActions.Add(participantActionBid);
                 AddDataPoint(auction);
                 auctionPrize.TopParticipant = participant.ParticipantId;
                 context.SaveChanges();
