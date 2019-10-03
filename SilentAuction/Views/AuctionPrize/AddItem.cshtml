@@ -34,8 +34,8 @@
     <div class="form-group">
         @Html.LabelFor(model => model.ActualValue, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownListFor(model => model.Category, new SelectList(Enum.GetValues(typeof(SilentAuction.Models.ItemCategory))), "Select Category")
-            @Html.ValidationMessageFor(model => model.ActualValue, "", new { @class = "text-danger" })
+            @Html.DropDownList("Category", new SelectList(Enum.GetValues(typeof(SilentAuction.Models.ItemCategory))), "Category", new { @class = "form-control" })
+           @Html.ValidationMessageFor(model => model.ActualValue, "", new { @class = "text-danger" })
         </div>
     </div>
 

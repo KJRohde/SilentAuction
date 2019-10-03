@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using static SilentAuction.Models.LineChart;
@@ -68,7 +69,7 @@ namespace SilentAuction.Controllers
                     string ToAddress = winner.EmailAddress;
                     string ToAdressTitle = "Winner";
                     string Subject = "You're a Winner!";
-                    string BodyContent = prize.Auction.Message;
+                    string BodyContent = winner.FirstName+" "+ winner.LastName+",\nYou have won the following prize!\nName: "+ prize.Name+ "\nDescription: "+ prize.Description +"\nBid: "+ prize.CurrentBid + "\nPayments can be made in your 'Prizes Won' tab in the app.\n"+ prize.Auction.Message;
 
                     //Smtp Server    
                     string SmtpServer = "smtp.gmail.com";
@@ -114,6 +115,43 @@ namespace SilentAuction.Controllers
             }
             await context.SaveChangesAsync();
             return RedirectToAction("CompletedAuctions", "Manager");
+        }
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Auction auction = context.Auctions.Where(c => c.AuctionId == id).Single();
+            if (auction == null)
+            {
+                return HttpNotFound();
+            }
+            return View(auction);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "Name,Description,StartTime,EndTime,Donors,AuctionId,ManagerId,Day,Message,ChartData,TotalRaised")]int id, Auction auction)
+        {
+            if (ModelState.IsValid)
+            {
+                Auction auctionToEdit = context.Auctions.Where(c => c.AuctionId == id).Single();
+                auctionToEdit.Name = auction.Name;
+                auctionToEdit.Description = auction.Description;
+                auctionToEdit.StartTime = auction.StartTime;
+                auctionToEdit.EndTime = auction.EndTime;
+                auctionToEdit.Day = auction.Day;
+                auctionToEdit.Message = auction.Message;
+                auctionToEdit.Donors = auction.Donors;
+                context.SaveChanges();
+                return RedirectToAction("Index", new { id = auction.AuctionId });
+            }
+            return View(auction);
+        }
+        public ActionResult GetAuctionPrizes(int id)
+        {
+            var prizes = context.AuctionPrizes.Where(p => p.AuctionId == id);
+            return View(prizes);
         }
     }
 }

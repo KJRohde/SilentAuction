@@ -1,72 +1,15 @@
-﻿@model IEnumerable<SilentAuction.Models.AuctionPrize>
+﻿@using SilentAuction.Models
+
+@model IEnumerable<SilentAuction.Models.AuctionPrize>
 @{
-    ViewBag.Title = "Participate";
+    ViewBag.Title = "GetAuctionPrizes";
 }
 <br />
 <br />
 <br />
 <h2>Minimum Bid Available</h2>
 
-@using (Html.BeginForm("Index", "Employee", FormMethod.Get))
-{
-    @Html.DropDownList("Category", new SelectList(Enum.GetValues(typeof(SilentAuction.Models.ItemCategory))), "Category", new { @class = "form-control" })
-    <input type="submit" value="Search" />
-}
-
-<table class="table">
-    <tr>
-        <th>
-            Item Name
-        </th>
-        <th>
-            Description
-        </th>
-        <th>
-            Item Value
-        </th>
-        <th>
-            Minimum Bid
-        </th>
-        <th>
-            Current Top Bid
-        </th>
-        <th>
-            Bid Increment
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model.Where(m => m.CurrentBid > 0).ToList())
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ActualValue)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MinimumBid)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CurrentBid)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BidIncrement)
-            </td>
-            <td>
-                @Html.ActionLink("Place a Bid", "Bid", "AuctionPrize", new { id = item.AuctionPrizeId }, null)
-            </td>
-        </tr>
-    }
-</table>
-<br />
-<br />
-<h2>Items With Bids</h2>
-@using (Html.BeginForm("Index", "Employee", FormMethod.Get))
+@using (Html.BeginForm("GetAuctionPrizes", "Auction", FormMethod.Get))
 {
     @Html.DropDownList("Category", new SelectList(Enum.GetValues(typeof(SilentAuction.Models.ItemCategory))), "Category", new { @class = "form-control" })
     <input type="submit" value="Search" />
@@ -117,7 +60,65 @@
                 @Html.DisplayFor(modelItem => item.BidIncrement)
             </td>
             <td>
-                @Html.ActionLink("Place a Bid", "Bid", "AuctionPrize", new { id = item.AuctionPrizeId }, null)
+                @Html.ActionLink("Edit", "Edit", "AuctionPrize", new { id = item.AuctionPrizeId }, null)
+            </td>
+        </tr>
+    }
+</table>
+<br />
+<br />
+<h2>Items With Bids</h2>
+@using (Html.BeginForm("GetAuctionPrizes", "Auction", FormMethod.Get))
+{
+    @Html.DropDownList("Category", new SelectList(Enum.GetValues(typeof(SilentAuction.Models.ItemCategory))), "Category", new { @class = "form-control" })
+    <input type="submit" value="Search" />
+}
+<table class="table">
+    <tr>
+        <th>
+            Item Name
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Item Value
+        </th>
+        <th>
+            Minimum Bid
+        </th>
+        <th>
+            Current Top Bid
+        </th>
+        <th>
+            Bid Increment
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Where(m => m.CurrentBid > 0).ToList())
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActualValue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MinimumBid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrentBid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BidIncrement)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", "AuctionPrize", new { id = item.AuctionPrizeId }, null)
             </td>
         </tr>
     }

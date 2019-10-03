@@ -315,7 +315,10 @@
     <Content Include="Views\AuctionPrize\Pay.cshtml" />
     <Content Include="Views\Manager\CompletedAuctions.cshtml" />
     <Content Include="Views\LineChart\Index.cshtml" />
-    <Content Include="Views\Auction\AuctionPrizes.cshtml" />
+    <Content Include="Views\Auction\GetAuctionPrizes.cshtml" />
+    <Content Include="Views\Auction\Edit.cshtml" />
+    <Content Include="Views\AuctionPrize\Edit.cshtml" />
+    <Content Include="Views\AuctionPrize\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="UserImages\" />

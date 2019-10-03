@@ -5,11 +5,14 @@
 <br />
 <br />
 <br />
-<h2>Upcomming Silent Auctions</h2>
+<h2>Upcoming Silent Auctions</h2>
 
 @Html.ActionLink("Create a new Auction", "Create", "Auction")
 <table class="table">
     <tr>
+        <th>
+            Date
+        </th>
         <th>
             Start Time
         </th>
@@ -27,30 +30,33 @@
 
     @foreach (var item in Model.Auctions)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.AuctionId }) ||
-                @Html.ActionLink("Delete", "Delete", new { id = item.AuctionId }) ||
-                @Html.ActionLink("Add Item", "AddItem", "AuctionPrize",  new { id = item.AuctionId }, null)
-                @Html.ActionLink("Details", "Index", "Auction", new { id = item.AuctionId }, null)
-            </td>
-        </tr>
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Day)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.StartTime)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.EndTime)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Description)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.AuctionId }) ||
+        @Html.ActionLink("Delete", "Delete", new { id = item.AuctionId }) ||
+        @Html.ActionLink("Add Item", "AddItem", "AuctionPrize", new { id = item.AuctionId }, null)
+        @Html.ActionLink("Details", "Index", "Auction", new { id = item.AuctionId }, null)
+    </td>
+</tr>
     }
 </table>
 
-<h2>Upcomming Raffles</h2>
+<h2>Upcoming Raffles</h2>
 
 @Html.ActionLink("Create a new Auction", "Create", "Raffle")
 <table class="table">
