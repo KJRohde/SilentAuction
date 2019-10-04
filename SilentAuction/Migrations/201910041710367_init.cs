@@ -170,6 +170,7 @@ namespace SilentAuction.Migrations
                         RafflePrizeId = c.Int(nullable: false, identity: true),
                         RaffleId = c.Int(nullable: false),
                         Value = c.Double(nullable: false),
+                        Name = c.String(),
                         Description = c.String(),
                         WinnerId = c.Int(),
                         CurrentTickets = c.Int(nullable: false),

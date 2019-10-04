@@ -16,6 +16,7 @@ namespace SilentAuction.Models
         public int RaffleId { get; set; }
         public Raffle Raffle { get; set; }
         public double Value { get; set; }
+        public string Name { get; set; }
         public string Description { get; set; }
         //[DisplayName("Upload Image File")]
         //public string ImagePath { get; set; }

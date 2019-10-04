@@ -13,7 +13,7 @@ namespace SilentAuction.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201910032133420_init"; }
+            get { return "201910041710367_init"; }
         }
         
         string IMigrationMetadata.Source

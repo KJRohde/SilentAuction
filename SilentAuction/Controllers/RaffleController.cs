@@ -12,9 +12,10 @@ namespace SilentAuction.Controllers
     {
         private ApplicationDbContext context = new ApplicationDbContext();
         // GET: Raffle
-        public ActionResult Index()
+        public ActionResult Index(int id)
         {
-            return View();
+            Raffle raffle = context.Raffles.FirstOrDefault(r => r.RaffleId == id);
+            return View(raffle);
         }
         public ActionResult Create()
         {
@@ -54,6 +55,16 @@ namespace SilentAuction.Controllers
             context.RafflePrizes.Add(rafflePrize);
             context.SaveChanges();
             return RedirectToAction("Continue", new { id = rafflePrize.RaffleId });
+        }
+        public ActionResult GetRafflePrizes(int id)
+        {
+            var prizes = context.RafflePrizes.Where(p => p.RaffleId == id);
+            return View(prizes);
+        }
+        public ActionResult Participate(int id)
+        {
+            var raffleItems = context.RafflePrizes.Where(a => a.RaffleId == id).ToList();
+            return View(raffleItems);
         }
     }
 }

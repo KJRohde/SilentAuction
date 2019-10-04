@@ -200,9 +200,9 @@
     <Compile Include="Controllers\ParticipantController.cs" />
     <Compile Include="Controllers\RaffleController.cs" />
     <Compile Include="Controllers\RafflePrizeController.cs" />
-    <Compile Include="Migrations\201910032133420_init.cs" />
-    <Compile Include="Migrations\201910032133420_init.Designer.cs">
-      <DependentUpon>201910032133420_init.cs</DependentUpon>
+    <Compile Include="Migrations\201910041710367_init.cs" />
+    <Compile Include="Migrations\201910041710367_init.Designer.cs">
+      <DependentUpon>201910041710367_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Data.cs" />
@@ -332,6 +332,7 @@
     <Content Include="Views\Raffle\BuyTickets.cshtml" />
     <Content Include="Views\Participant\Pay.cshtml" />
     <Content Include="Views\Raffle\Participate.cshtml" />
+    <Content Include="Views\Raffle\GetRafflePrizes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="UserImages\" />
@@ -354,8 +355,8 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201910032133420_init.resx">
-      <DependentUpon>201910032133420_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201910041710367_init.resx">
+      <DependentUpon>201910041710367_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

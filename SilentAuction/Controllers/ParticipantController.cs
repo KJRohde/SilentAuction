@@ -86,7 +86,12 @@ namespace SilentAuction.Controllers
             };
             return View(myModel);
         }
-        public ActionResult BuyTickets( int id, int tickets)
+        [HttpPost]
+        public ActionResult BuyTickets(int id, int tickets)
+        {
+
+        }
+        public ActionResult Pay( int id)
         {
             {
                 var key = Keys.StripePublishableKey;
