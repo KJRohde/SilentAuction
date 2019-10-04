@@ -201,9 +201,9 @@
     <Compile Include="Controllers\RaffleController.cs" />
     <Compile Include="Controllers\RafflePrizeController.cs" />
     <Compile Include="Controllers\TransactionController.cs" />
-    <Compile Include="Migrations\201910041935304_init.cs" />
-    <Compile Include="Migrations\201910041935304_init.Designer.cs">
-      <DependentUpon>201910041935304_init.cs</DependentUpon>
+    <Compile Include="Migrations\201910042141106_init.cs" />
+    <Compile Include="Migrations\201910042141106_init.Designer.cs">
+      <DependentUpon>201910042141106_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Data.cs" />
@@ -211,6 +211,7 @@
     <Compile Include="Models\ParticipantAction.cs" />
     <Compile Include="Models\tblAuctionPrize.cs" />
     <Compile Include="Models\tblRafflePrize.cs" />
+    <Compile Include="Models\Ticket.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="SilentAuctionDataClasses.designer.cs">
       <AutoGen>True</AutoGen>
@@ -337,6 +338,7 @@
     <Content Include="Views\Transaction\Pay.cshtml" />
     <Content Include="Views\Transaction\GetTransactions.cshtml" />
     <Content Include="Views\LineChart\IndexRaffle.cshtml" />
+    <Content Include="Views\Participant\AddTickets.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="UserImages\" />
@@ -360,8 +362,8 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201910041935304_init.resx">
-      <DependentUpon>201910041935304_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201910042141106_init.resx">
+      <DependentUpon>201910042141106_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

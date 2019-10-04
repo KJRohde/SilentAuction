@@ -133,7 +133,7 @@ namespace SilentAuction.Controllers
             transaction.ManagerId = raffle.ManagerId;
             transaction.ParticipantId = participant.ParticipantId;
             transaction.Paid = false;
-            transaction.Description = "Purchasing " + tickets + "from " + raffle.Name + ".";
+            transaction.Description = "Purchasing " + tickets + " tickets from " + raffle.Name + ".";
             context.Transactions.Add(transaction);
             context.SaveChanges();
             return transaction;
@@ -145,9 +145,31 @@ namespace SilentAuction.Controllers
             return View(rafflePrize);
         }
         [HttpPost]
-        public ActionResult AddTickets()
+        public ActionResult AddTickets([Bind(Include = "RafflePrizeId,Description,Value,RaffleId,Category,CurrentTickets,WinnerId")] RafflePrize rafflePrize, int id)
         {
-
+            
+            var currentUser = User.Identity.GetUserId();
+            var participant = context.Participants.FirstOrDefault(c => c.ApplicationUserId == currentUser);
+            if (rafflePrize.CurrentTickets <= participant.RaffleTickets)
+            {
+                var prizeToEdit = context.RafflePrizes.FirstOrDefault(p => p.RafflePrizeId == id);
+                prizeToEdit.CurrentTickets += rafflePrize.CurrentTickets;
+                participant.RaffleTickets -= rafflePrize.CurrentTickets;
+                for (int i = 1; i <= rafflePrize.CurrentTickets; i++)
+                {
+                    Ticket ticket = new Ticket();
+                    ticket.RafflePrizeId = rafflePrize.RafflePrizeId;
+                    ticket.ParticipantId = participant.ParticipantId;
+                    context.Tickets.Add(ticket);
+                }
+                context.SaveChanges();
+            }
+            else
+            {
+                ModelState.AddModelError("", "You cannot enter this many tickets.");
+                return View(rafflePrize);
+            }
+            return RedirectToAction("Index", "Raffle", new { id = rafflePrize.RaffleId });
         }
     }
 }

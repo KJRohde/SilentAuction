@@ -3,9 +3,9 @@
     ViewBag.Title = "BuyTickets";
 }
 
-<h2>Are you sure you would like to buy tickets for @Html.Display(Model.Raffle.Name)?</h2>
+<h2>Are you sure you would like to buy tickets for this raffle?</h2>
 
-<p>@Html.Display(Model.Raffle.Description)</p>
+<p>@Html.Display(Model.Raffle.Description.Trim())</p>
 <br />
 <p>The price per ticket is @Html.Display(Model.Raffle.CostPerTicket.ToString())</p>
 <br />

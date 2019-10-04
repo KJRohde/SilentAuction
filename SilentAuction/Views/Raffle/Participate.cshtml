@@ -33,6 +33,7 @@
 </td>
             <td>
                 @Html.ActionLink("Buy Tickets", "BuyTickets", "Participant", new { id = item.RaffleId }, null)
+                @Html.ActionLink("Add Tickets", "AddTickets", "Participant", new { id = item.RafflePrizeId }, null)
             </td>
         </tr>
     }

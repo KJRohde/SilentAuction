@@ -31,6 +31,7 @@ namespace SilentAuction.Models
         public DbSet<Data> Data { get; set; }
         public DbSet<ParticipantAction> ParticipantActions { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
