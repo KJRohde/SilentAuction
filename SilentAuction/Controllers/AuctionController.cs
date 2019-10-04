@@ -111,7 +111,7 @@ namespace SilentAuction.Controllers
             foreach (AuctionPrize prize in prizes)
             {
                 prize.ParticipantId = prize.TopParticipant;
-                prize.Paid = false;
+                AddTransaction(prize);
             }
             await context.SaveChangesAsync();
             return RedirectToAction("CompletedAuctions", "Manager");
@@ -214,6 +214,17 @@ namespace SilentAuction.Controllers
         {
             Auction auction = context.Auctions.FirstOrDefault(a => a.AuctionId == id);
             return View(auction);
+        }
+        public Transaction AddTransaction(AuctionPrize prize)
+        {
+            Transaction transaction = new Transaction();
+            transaction.Money = prize.CurrentBid;
+            transaction.ManagerId = prize.Auction.ManagerId;
+            transaction.ParticipantId = prize.ParticipantId;
+            transaction.Paid = false;
+            transaction.Description = "Winning " + prize.Name + "from " + prize.Auction.Name + ".";
+            context.SaveChanges();
+            return transaction;
         }
     }
 }

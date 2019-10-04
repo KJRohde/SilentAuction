@@ -13,7 +13,7 @@ namespace SilentAuction.Models
         [Key]
         public int AuctionId { get; set; }
         [ForeignKey("Manager")]
-        public int ManagerId { get; set; }
+        public int? ManagerId { get; set; }
         [Display(Name = "Message for winners")]
         public string Message { get; set; }
         public Manager Manager { get; set; }

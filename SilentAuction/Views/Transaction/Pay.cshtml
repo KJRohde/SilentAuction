@@ -1,0 +1,27 @@
+﻿@model SilentAuction.Models.Transaction
+@{
+    ViewBag.Title = "Pay";
+}
+
+<h2>@Model.Description</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <form action="/AuctionPrize/Pay" method="POST">
+        @{
+            var cost = Model.Money * 100;
+        }
+        <article>
+            <label>Amount: $@Html.DisplayFor(model => model.Money)</label>
+        </article>
+        <script src="//checkout.stripe.com/v2/checkout.js"
+                class="stripe-button"
+                data-key="@ViewBag.StripePublishableKey"
+                data-locale="auto"
+                data-description="Auction Payment"
+                data-amount="@cost">
+        </script>
+    </form>
+}

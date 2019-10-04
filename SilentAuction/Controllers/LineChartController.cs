@@ -13,7 +13,7 @@ namespace SilentAuction.Controllers
     {
         ApplicationDbContext context = new ApplicationDbContext();
         // GET: LineChart
-        public ActionResult Index(int id)
+        public ActionResult IndexAuction(int id)
         {
             Auction auction = context.Auctions.FirstOrDefault(a => a.AuctionId == id);
             var dataSet = context.Data.Where(d => d.AuctionId == id);
@@ -27,5 +27,19 @@ namespace SilentAuction.Controllers
 
             return View();
         }
-    }
+        public ActionResult IndexRaffle(int id)
+        {
+            Raffle raffle = context.Raffles.FirstOrDefault(a => a.RaffleId == id);
+            var dataSet = context.Data.Where(d => d.AuctionId == id);
+            List<DataPoint> dataPoints = new List<DataPoint>();
+            foreach (Data point in dataSet)
+            {
+                dataPoints.Add(new DataPoint(point.Time, point.Money));
+            }
+
+            ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
+
+            return View();
+        }
+        }
 }

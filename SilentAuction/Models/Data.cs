@@ -14,8 +14,11 @@ namespace SilentAuction.Models
         public double Time { get; set; }
         public double Money { get; set; }
         [ForeignKey("Auction")]
-        public int AuctionId { get; set; }
+        public int? AuctionId { get; set; }
         public Auction Auction { get; set; }
+        [ForeignKey("Raffle")]
+        public int? RaffleId { get; set; }
+        public Raffle Raffle { get; set; }
 
     }
 }

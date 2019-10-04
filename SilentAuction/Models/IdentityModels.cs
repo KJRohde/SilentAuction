@@ -30,6 +30,7 @@ namespace SilentAuction.Models
         public DbSet<tblRafflePrize> tblRafflePrizes { get; set; }
         public DbSet<Data> Data { get; set; }
         public DbSet<ParticipantAction> ParticipantActions { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

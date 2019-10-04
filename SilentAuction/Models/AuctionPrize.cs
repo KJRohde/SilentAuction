@@ -26,7 +26,6 @@ namespace SilentAuction.Models
         [ForeignKey("Auction")]
         public int AuctionId { get; set; }
         public Auction Auction { get; set; }
-        public bool? Paid { get; set; }
         //[DisplayName("Upload Image File")]
         //public string ImagePath { get; set; }
         //[NotMapped]

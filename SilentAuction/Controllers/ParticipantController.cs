@@ -47,11 +47,12 @@ namespace SilentAuction.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create([Bind(Include = "FirstName,LastName,EmailAddress,ApplicationUserId")] Participant participant)
+        public ActionResult Create([Bind(Include = "FirstName,LastName,EmailAddress,ApplicationUserId,RaffleTickets")] Participant participant)
         {
             var currentUserId = User.Identity.GetUserId();
             participant.ApplicationUserId = currentUserId;
             participant.EmailAddress = User.Identity.GetUserName();
+            participant.RaffleTickets = 0;
             if (participant.ApplicationUserId == currentUserId)
             {
                 context.Participants.Add(participant);
@@ -87,47 +88,21 @@ namespace SilentAuction.Controllers
             return View(myModel);
         }
         [HttpPost]
-        public ActionResult BuyTickets(int id, int tickets)
-        {
-
-        }
-        public ActionResult Pay( int id)
-        {
-            {
-                var key = Keys.StripePublishableKey;
-                ViewBag.StripePublishableKey = key;
-                var raffle = context.Raffles.FirstOrDefault(r => r.RaffleId == id);
-                return View(raffle);
-            }
-        }
-
-        [HttpPost]
-        public ActionResult Pay(string stripeEmail, string stripeToken, int id, int tickets)
+        public ActionResult BuyTickets([Bind(Include = "FirstName,LastName,EmailAddress,ApplicationUserId,RaffleTickets")] Participant participant, int id)
         {
             Raffle raffle = context.Raffles.FirstOrDefault(r => r.RaffleId == id);
-            double cost = tickets * raffle.CostPerTicket;
-            var customers = new CustomerService();
-            var charges = new ChargeService();
-            StripeConfiguration.ApiKey = Keys.StripeSecretKey;
-            var customer = customers.Create(new CustomerCreateOptions
-            {
-                Email = stripeEmail,
-                Source = stripeToken
-            });
-
-            var currentUserId = User.Identity.GetUserId().ToString();
-            var participant = context.Participants.FirstOrDefault(m => m.ApplicationUserId == currentUserId);
-
-            var charge = charges.Create(new ChargeCreateOptions
-            {
-                Amount = Convert.ToInt64(cost),
-                Description = raffle.Name,
-                Currency = "usd",
-                CustomerId = customer.Id
-            });
-            participant.RaffleTickets = tickets;
+            var currentUserId = User.Identity.GetUserId();
+            var buyingParticipant = context.Participants.FirstOrDefault(p => p.ApplicationUserId == currentUserId);
+            int tickets = (participant.RaffleTickets);
+            int amount = (tickets * raffle.CostPerTicket);
+            raffle.TotalRaised += amount;
+            buyingParticipant.RaffleTickets += participant.RaffleTickets;
             context.SaveChanges();
+            AddDataPoint(raffle);
+            AddTransaction(raffle, amount, tickets);
             return RedirectToAction("Index", "Participant");
+
+
         }
         public Data AddDataPoint(Auction auction)
         {
@@ -138,6 +113,41 @@ namespace SilentAuction.Controllers
             context.Data.Add(data);
             context.SaveChanges();
             return data;
+        }
+        public Data AddDataPoint(Raffle raffle)
+        {
+            Data data = new Data();
+            data.Time = DateTime.Now.Ticks;
+            data.Money = raffle.TotalRaised;
+            data.RaffleId = raffle.RaffleId;
+            context.Data.Add(data);
+            context.SaveChanges();
+            return data;
+        }
+        public Transaction AddTransaction(Raffle raffle, int amount, int tickets)
+        {
+            var currentUserId = User.Identity.GetUserId();
+            Participant participant = context.Participants.FirstOrDefault(p => p.ApplicationUserId == currentUserId);
+            Transaction transaction = new Transaction();
+            transaction.Money = amount;
+            transaction.ManagerId = raffle.ManagerId;
+            transaction.ParticipantId = participant.ParticipantId;
+            transaction.Paid = false;
+            transaction.Description = "Purchasing " + tickets + "from " + raffle.Name + ".";
+            context.Transactions.Add(transaction);
+            context.SaveChanges();
+            return transaction;
+
+        }
+        public ActionResult AddTickets(int id)
+        {
+            var rafflePrize = context.RafflePrizes.FirstOrDefault(p => p.RafflePrizeId == id);
+            return View(rafflePrize);
+        }
+        [HttpPost]
+        public ActionResult AddTickets()
+        {
+
         }
     }
 }

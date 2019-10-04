@@ -22,7 +22,7 @@ namespace SilentAuction.Models
         public string Donors { get; set; }
         public string Name { get; set; }
         [ForeignKey("Manager")]
-        public int ManagerId { get; set; }
+        public int? ManagerId { get; set; }
         public Manager Manager { get; set; }
         public string Description { get; set; }
         public int CostPerTicket { get; set; }

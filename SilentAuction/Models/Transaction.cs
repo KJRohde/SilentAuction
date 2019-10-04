@@ -7,15 +7,18 @@ using System.Web;
 
 namespace SilentAuction.Models
 {
-    public class ParticipantAction
+    public class Transaction
     {
         [Key]
-        public int ParticipantActionId { get; set; }
-        public string Action { get; set; }
+        public int TransactionId { get; set; }
+        public double Money { get; set; }
         [ForeignKey("Participant")]
         public int? ParticipantId { get; set; }
         public Participant Participant { get; set; }
-        [DataType(DataType.DateTime)]
-        public DateTime Time { get; set; }
+        [ForeignKey("Manager")]
+        public int? ManagerId { get; set; }
+        public Manager Manager { get; set; }
+        public bool Paid { get; set; }
+        public string Description { get; set; }
     }
 }

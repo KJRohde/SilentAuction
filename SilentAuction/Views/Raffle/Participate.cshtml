@@ -32,7 +32,7 @@
                 @Html.DisplayFor(modelItem => item.Value)
 </td>
             <td>
-                @Html.ActionLink("Buy Tickets", "Pay", "Participant", new { id = item.RaffleId }, null)
+                @Html.ActionLink("Buy Tickets", "BuyTickets", "Participant", new { id = item.RaffleId }, null)
             </td>
         </tr>
     }

@@ -95,44 +95,6 @@ namespace SilentAuction.Controllers
             Auction auction = context.Auctions.FirstOrDefault(a => a.AuctionId == id);
             return View(auction);
         }
-        public ActionResult Pay(int id)
-        {
-            {
-                var key = Keys.StripePublishableKey;
-                ViewBag.StripePublishableKey = key;
-                var auctionPrize = context.AuctionPrizes.FirstOrDefault(m => m.AuctionPrizeId == id);
-                return View(auctionPrize);
-            }
-        }
-
-        [HttpPost]
-        public ActionResult Pay(string stripeEmail, string stripeToken, int id)
-        {
-            var auctionPrize = context.AuctionPrizes.FirstOrDefault(m => m.AuctionPrizeId == id);
-            var customers = new CustomerService();
-            var charges = new ChargeService();
-            StripeConfiguration.ApiKey = Keys.StripeSecretKey;
-            var customer = customers.Create(new CustomerCreateOptions
-            {
-                Email = stripeEmail,
-                Source = stripeToken
-            });
-
-            var currentUserId = User.Identity.GetUserId().ToString();
-            var participant = context.Participants.FirstOrDefault(m => m.ApplicationUserId == currentUserId);
-            var bid = auctionPrize.CurrentBid * 100;
-
-            var charge = charges.Create(new ChargeCreateOptions
-            {
-                Amount = Convert.ToInt64(bid),
-                Description = auctionPrize.Name,
-                Currency = "usd",
-                CustomerId = customer.Id
-            });
-            auctionPrize.Paid = true;
-            context.SaveChanges();
-            return RedirectToAction("ViewPrizesWon", "Participant");
-        }
         public Data AddDataPoint(Auction auction)
         {
             Data data = new Data();

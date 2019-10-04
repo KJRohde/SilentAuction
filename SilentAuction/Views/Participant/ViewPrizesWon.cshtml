@@ -21,9 +21,6 @@
         <th>
             Winning Bid
         </th>
-        <th>
-            Paid
-        </th>
         <th></th>
     </tr>
 
@@ -41,12 +38,6 @@
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.CurrentBid)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Paid)
-    </td>
-    <td>
-        @Html.ActionLink("Pay", "Pay", "AuctionPrize", new { id = item.AuctionPrizeId }, null)
     </td>
 </tr>
     }

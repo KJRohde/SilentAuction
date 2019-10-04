@@ -1,0 +1,88 @@
+﻿@using SilentAuction.Models
+
+@model IEnumerable<SilentAuction.Models.Transaction>
+@{
+    ViewBag.Title = "GetTransactions";
+}
+<h2>Pending Transactions</h2>
+<br />
+<table class="table">
+    <tr>
+        <th>
+            Description
+        </th>
+        <th>
+            Value
+        </th>
+        <th>
+            Participant
+        </th>
+        <th>
+            Manager
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Where(m => m.Paid == false).ToList())
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Money)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Participant.FirstName + item.Participant.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Manager.FirstName + item.Participant.LastName)
+            </td>
+            @if (User.IsInRole("Participant"))
+            {
+            <td>
+                @Html.ActionLink("Pay", "Pay", new { id = item.TransactionId })
+            </td>
+            }
+        </tr>
+    }
+</table>
+<br />
+<br />
+<h2>Completed Transactions</h2>
+<br />
+<table class="table">
+    <tr>
+        <th>
+            Description
+        </th>
+        <th>
+            Value
+        </th>
+        <th>
+            Participant
+        </th>
+        <th>
+            Manager
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Where(m => m.Paid == true).ToList())
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Money)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Participant.FirstName + item.Participant.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Manager.FirstName + item.Participant.LastName)
+            </td>
+        </tr>
+    }
+</table>

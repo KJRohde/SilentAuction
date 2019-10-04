@@ -11,11 +11,18 @@
 <br />
 @using (Html.BeginForm())
 {
+    @Html.Hidden(Model.Participant.FirstName)
+    @Html.Hidden(Model.Participant.LastName)
+    @Html.Hidden(Model.Participant.ApplicationUserId)
+    @Html.Hidden(Model.Participant.EmailAddress)
+    @Html.HiddenFor(model => Model.Participant.ParticipantId)
+    @Html.HiddenFor(model => Model.Participant.TotalSpent)
+
     <div class="form-horizontal">
         How many tikets would you like to purchase?
         <div class="col-md-10">
             @Html.EditorFor(model => Model.Participant.RaffleTickets, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => Model.Participant.RaffleTickets), "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(model => Model.Participant.RaffleTickets, "", new { @class = "text-danger" })
         </div>
     </div>
 
@@ -24,3 +31,4 @@
             <input type="submit" value="BuyTickets" class="btn btn-default" />
         </div>
     </div>
+}
