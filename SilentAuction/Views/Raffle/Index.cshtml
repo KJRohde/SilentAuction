@@ -57,6 +57,6 @@
 </p>
 <br />
 <p>
-    @Html.ActionLink("Email Blast", "EmailBlastAsync", new { auctionId = Model.RaffleId }) ||
-    @Html.ActionLink("Close Raffle", "CloseRaffleAsync", new { auctionId = Model.RaffleId })
+    @Html.ActionLink("Email Blast", "EmailBlastRaffleAsync", "Manager", new { raffleId = Model.RaffleId }, null) ||
+    @Html.ActionLink("Close Raffle", "CloseRaffleAsync", new { raffleId = Model.RaffleId })
 </p>

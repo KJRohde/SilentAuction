@@ -169,7 +169,7 @@ namespace SilentAuction.Controllers
                 ModelState.AddModelError("", "You cannot enter this many tickets.");
                 return View(rafflePrize);
             }
-            return RedirectToAction("Index", "Raffle", new { id = rafflePrize.RaffleId });
+            return RedirectToAction("Participate", "Raffle", new { id = rafflePrize.RaffleId });
         }
     }
 }

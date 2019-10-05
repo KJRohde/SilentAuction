@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using MailKit.Net.Smtp;
+using Microsoft.AspNet.Identity;
+using MimeKit;
 using SilentAuction.Models;
 using System;
 using System.Collections.Generic;
@@ -65,6 +67,76 @@ namespace SilentAuction.Controllers
         {
             var raffleItems = context.RafflePrizes.Where(a => a.RaffleId == id).ToList();
             return View(raffleItems);
+        }
+        public ActionResult EmailSent(int id)
+        {
+            Raffle raffle = context.Raffles.FirstOrDefault(a => a.RaffleId == id);
+            return View(raffle);
+        }
+
+        public async System.Threading.Tasks.Task<ActionResult> CloseRaffleAsync(int raffleId)
+        {
+            var raffle = context.Raffles.FirstOrDefault(u => u.RaffleId == raffleId);
+            raffle.EndTime = DateTime.Now;
+            var prizes = context.RafflePrizes.Where(p => p.RaffleId == raffle.RaffleId).ToList();
+
+            foreach (RafflePrize prize in prizes)
+            {
+                Random random = new Random();
+                var tickets = context.Tickets.Where(t => t.RafflePrizeId == prize.RafflePrizeId).ToList();
+                Ticket winningTicket = tickets[random.Next(0, tickets.Count)];
+                Participant winner = context.Participants.FirstOrDefault(w => w.ParticipantId == winningTicket.ParticipantId);
+                prize.WinnerId = winner.ParticipantId;
+                try
+                {
+                    //From Address    
+                    string FromAddress = "DCCSilentAuction@gmail.com";
+                    string FromAdressTitle = "Silent Auction App";
+                    //To Address    
+                    string ToAddress = winner.EmailAddress;
+                    string ToAdressTitle = "Winner";
+                    string Subject = "You're a Winner!";
+                    string BodyContent = winner.FirstName + " " + winner.LastName + ",\nYou have won the following prize!\nName: " + prize.Name + "\nDescription: " + prize.Description + ". Please make sure you have paid for all tickets before claiming your prize.";
+
+                    //Smtp Server    
+                    string SmtpServer = "smtp.gmail.com";
+                    //Smtp Port Number    
+                    int SmtpPortNumber = 587;
+
+                    var mimeMessage = new MimeMessage();
+                    mimeMessage.From.Add(new MailboxAddress
+                                            (FromAdressTitle,
+                                             FromAddress
+                                             ));
+                    mimeMessage.To.Add(new MailboxAddress
+                                             (ToAdressTitle,
+                                             ToAddress
+                                             ));
+                    mimeMessage.Subject = Subject; //Subject  
+                    mimeMessage.Body = new TextPart("plain")
+                    {
+                        Text = BodyContent
+                    };
+
+                    using (var client = new SmtpClient())
+                    {
+                        client.Connect(SmtpServer, SmtpPortNumber, false);
+                        client.Authenticate(
+                            "DCCSilentAuction@gmail.com",
+                            "!234Qwer"
+                            );
+                        await client.SendAsync(mimeMessage);
+                        await client.DisconnectAsync(true);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+
+                }
+            }
+            await context.SaveChangesAsync();
+            return RedirectToAction("CompletedRaffles", "Manager");
         }
     }
 }
