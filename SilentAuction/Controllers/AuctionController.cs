@@ -46,10 +46,18 @@ namespace SilentAuction.Controllers
             return View(auction);
         }
 
-        public ActionResult Participate(int id)
+        public ActionResult Participate(int id, string category)
         {
             var auctionItems = context.AuctionPrizes.Where(a => a.AuctionId == id).ToList();
-            return View(auctionItems);
+            if (category == null || category == "All")
+            {
+                return View(auctionItems);
+            }
+            else
+            {
+                var selectedItems = auctionItems.Where(s => s.Category.ToString() == category.ToString()).ToList();
+                return View(selectedItems);
+            }
         }
         public async System.Threading.Tasks.Task<ActionResult> CloseAuctionAsync(int auctionId)
         {

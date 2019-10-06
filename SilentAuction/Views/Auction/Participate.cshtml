@@ -4,9 +4,9 @@
 }
 <h2>Minimum Bid Available</h2>
 
-@using (Html.BeginForm("Index", "Employee", FormMethod.Get))
+@using (Html.BeginForm("Participate", "Auction", FormMethod.Get))
 {
-    @Html.DropDownList("Category", new SelectList(Enum.GetValues(typeof(SilentAuction.Models.ItemCategory))), "Category", new { @class = "form-control" })
+    @Html.DropDownList("Category", new SelectList(Enum.GetValues(typeof(SilentAuction.Models.ItemCategory))), "All", new { @class = "form-control" })
     <input type="submit" value="Search" />
 }
 
@@ -63,11 +63,6 @@
 <br />
 <br />
 <h2>Items With Bids</h2>
-@using (Html.BeginForm("Index", "Employee", FormMethod.Get))
-{
-    @Html.DropDownList("Category", new SelectList(Enum.GetValues(typeof(SilentAuction.Models.ItemCategory))), "Category", new { @class = "form-control" })
-    <input type="submit" value="Search" />
-}
 
 <table class="table">
     <tr>

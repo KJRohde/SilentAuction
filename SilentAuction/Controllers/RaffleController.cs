@@ -63,10 +63,18 @@ namespace SilentAuction.Controllers
             var prizes = context.RafflePrizes.Where(p => p.RaffleId == id);
             return View(prizes);
         }
-        public ActionResult Participate(int id)
+        public ActionResult Participate(int id, string category)
         {
             var raffleItems = context.RafflePrizes.Where(a => a.RaffleId == id).ToList();
-            return View(raffleItems);
+            if (category == null)
+            {
+                return View(raffleItems);
+            }
+            else
+            {
+                var selectedItems = raffleItems.Where(r => r.Category == category);
+                return View(selectedItems);
+            }
         }
         public ActionResult EmailSent(int id)
         {
