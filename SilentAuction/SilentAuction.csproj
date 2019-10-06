@@ -201,6 +201,11 @@
     <Compile Include="Controllers\RaffleController.cs" />
     <Compile Include="Controllers\RafflePrizeController.cs" />
     <Compile Include="Controllers\TransactionController.cs" />
+    <Compile Include="Migrations\201910060042453_init.cs" />
+    <Compile Include="Migrations\201910060042453_init.Designer.cs">
+      <DependentUpon>201910060042453_init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Data.cs" />
     <Compile Include="Models\LineChart.cs" />
     <Compile Include="Models\ParticipantAction.cs" />
@@ -334,6 +339,7 @@
     <Content Include="Views\Transaction\GetTransactions.cshtml" />
     <Content Include="Views\LineChart\IndexRaffle.cshtml" />
     <Content Include="Views\Participant\AddTickets.cshtml" />
+    <Content Include="Views\Manager\CompletedRaffles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="UserImages\" />
@@ -355,6 +361,11 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201910060042453_init.resx">
+      <DependentUpon>201910060042453_init.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

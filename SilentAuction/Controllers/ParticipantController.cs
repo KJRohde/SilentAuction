@@ -78,14 +78,8 @@ namespace SilentAuction.Controllers
         }
         public ActionResult BuyTickets(int id)
         {
-            var currentUserId = User.Identity.GetUserId();
-            var participant = context.Participants.FirstOrDefault(p => p.ApplicationUserId == currentUserId);
-            var myModel = new ViewModel
-            {
-                Raffle = context.Raffles.FirstOrDefault(r => r.RaffleId == id),
-                Participant = context.Participants.FirstOrDefault(s => s.ParticipantId == participant.ParticipantId)
-            };
-            return View(myModel);
+            Participant participant = context.Participants.FirstOrDefault(p => p.ParticipantId == id);
+            return View(participant);
         }
         [HttpPost]
         public ActionResult BuyTickets([Bind(Include = "FirstName,LastName,EmailAddress,ApplicationUserId,RaffleTickets")] Participant participant, int id)

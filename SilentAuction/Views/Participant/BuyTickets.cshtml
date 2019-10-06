@@ -1,28 +1,22 @@
-﻿@model SilentAuction.Models.ViewModel
+﻿@model SilentAuction.Models.Participant
 @{
     ViewBag.Title = "BuyTickets";
 }
 
-<h2>Are you sure you would like to buy tickets for this raffle?</h2>
-
-<p>@Html.Display(Model.Raffle.Description.Trim())</p>
-<br />
-<p>The price per ticket is @Html.Display(Model.Raffle.CostPerTicket.ToString())</p>
-<br />
 @using (Html.BeginForm())
 {
-    @Html.Hidden(Model.Participant.FirstName)
-    @Html.Hidden(Model.Participant.LastName)
-    @Html.Hidden(Model.Participant.ApplicationUserId)
-    @Html.Hidden(Model.Participant.EmailAddress)
-    @Html.HiddenFor(model => Model.Participant.ParticipantId)
-    @Html.HiddenFor(model => Model.Participant.TotalSpent)
+    @Html.HiddenFor(model => model.FirstName)
+    @Html.HiddenFor(model => model.LastName)
+    @Html.HiddenFor(model => model.ApplicationUserId)
+    @Html.HiddenFor(model => model.EmailAddress)
+    @Html.HiddenFor(model => model.ParticipantId)
+    @Html.HiddenFor(model => model.TotalSpent)
 
     <div class="form-horizontal">
         How many tikets would you like to purchase?
         <div class="col-md-10">
-            @Html.EditorFor(model => Model.Participant.RaffleTickets, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => Model.Participant.RaffleTickets, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.RaffleTickets, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.RaffleTickets, "", new { @class = "text-danger" })
         </div>
     </div>
 

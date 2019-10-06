@@ -1,0 +1,47 @@
+﻿@model IEnumerable<SilentAuction.Models.Raffle>
+@{
+    ViewBag.Title = "CompletedRaffles";
+}
+<br />
+<br />
+<br />
+<h2>Completed Silent Auctions</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Start Time
+        </th>
+        <th>
+            End Time
+        </th>
+        <th>
+            Event
+        </th>
+        <th>
+            Description
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Index", "Raffle", new { id = item.RaffleId }, null)
+            </td>
+        </tr>
+    }
+</table>
