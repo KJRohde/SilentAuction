@@ -1,11 +1,8 @@
-﻿@model IEnumerable<SilentAuction.Models.AuctionPrize>
+﻿@model SilentAuction.Models.ViewModel
 @{
     ViewBag.Title = "Participate";
 }
-<br />
-<br />
-<br />
-<h2>Items Won</h2>
+<h2>Auction Items Won</h2>
 
 <table class="table">
     <tr>
@@ -24,21 +21,53 @@
         <th></th>
     </tr>
 
-    @foreach (var item in Model)
+    @foreach (var item in Model.AuctionPrizes)
     {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.Name)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Description)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.ActualValue)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.CurrentBid)
-    </td>
-</tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActualValue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrentBid)
+            </td>
+        </tr>
+    }
+</table>
+
+<h2>Raffle Items Won</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Item Name
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Item Value
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.RafflePrizes)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Value)
+            </td>
+        </tr>
     }
 </table>

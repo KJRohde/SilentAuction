@@ -23,8 +23,8 @@ namespace SilentAuction.Controllers
             {
                 var key = Keys.StripePublishableKey;
                 ViewBag.StripePublishableKey = key;
-                var raffle = context.Raffles.FirstOrDefault(r => r.RaffleId == id);
-                return View(raffle);
+                var transaction = context.Transactions.FirstOrDefault(r => r.TransactionId == id);
+                return View(transaction);
             }
         }
 
@@ -54,7 +54,7 @@ namespace SilentAuction.Controllers
             transaction.Paid = true;
             AddAction(transaction);
             context.SaveChanges();
-            return RedirectToAction("Index", "Participant");
+            return RedirectToAction("GetTransactions", "Transaction");
         }
         public ActionResult GetTransactions()
         {
@@ -76,7 +76,7 @@ namespace SilentAuction.Controllers
         public ParticipantAction AddAction(Transaction transaction)
         {
             ParticipantAction action = new ParticipantAction();
-            action.Action = "Paid $" + transaction.Money + " to " + transaction.Manager.FirstName + " " + transaction.Manager.LastName + " for " + transaction.Description + ".";
+            action.Action = "Paid $" + transaction.Money + " for " + transaction.Description + ".";
             action.Time = DateTime.Now;
             action.ParticipantId = transaction.ParticipantId;
             context.ParticipantActions.Add(action);

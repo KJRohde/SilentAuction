@@ -340,6 +340,7 @@
     <Content Include="Views\LineChart\IndexRaffle.cshtml" />
     <Content Include="Views\Participant\AddTickets.cshtml" />
     <Content Include="Views\Manager\CompletedRaffles.cshtml" />
+    <Content Include="Views\Manager\GetTransactions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="UserImages\" />

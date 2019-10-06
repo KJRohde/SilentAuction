@@ -66,8 +66,12 @@ namespace SilentAuction.Controllers
         {
             var currentUserId = User.Identity.GetUserId();
             var participant = context.Participants.FirstOrDefault(p => p.ApplicationUserId == currentUserId);
-            var auctionPrizesWon = context.AuctionPrizes.Where(a => a.ParticipantId == participant.ParticipantId);
-            return View(auctionPrizesWon);
+            var myModel = new ViewModel
+            {
+                AuctionPrizes = context.AuctionPrizes.Where(s => s.ParticipantId == participant.ParticipantId).ToList(),
+                RafflePrizes = context.RafflePrizes.Where(r => r.WinnerId == participant.ParticipantId).ToList()
+            };
+            return View(myModel);
         }
         public ActionResult GetActionHistory()
         {
@@ -94,6 +98,7 @@ namespace SilentAuction.Controllers
             context.SaveChanges();
             AddDataPoint(raffle);
             AddTransaction(raffle, amount, tickets);
+            AddAction(raffle, tickets);
             return RedirectToAction("Index", "Participant");
 
 
@@ -156,6 +161,7 @@ namespace SilentAuction.Controllers
                     ticket.ParticipantId = participant.ParticipantId;
                     context.Tickets.Add(ticket);
                 }
+                AddAction(rafflePrize, rafflePrize.CurrentTickets);
                 context.SaveChanges();
             }
             else
@@ -164,6 +170,30 @@ namespace SilentAuction.Controllers
                 return View(rafflePrize);
             }
             return RedirectToAction("Participate", "Raffle", new { id = rafflePrize.RaffleId });
+        }
+        public ParticipantAction AddAction(Raffle raffle, int tickets)
+        {
+            ParticipantAction action = new ParticipantAction();
+            var currentUser = User.Identity.GetUserId();
+            Participant participant = context.Participants.FirstOrDefault(p => p.ApplicationUserId == currentUser);
+            action.Action = "Acquired " + tickets + " for " + raffle.Name + ", please pay for your tickets in the transactions tab.";
+            action.Time = DateTime.Now;
+            action.ParticipantId = participant.ParticipantId;
+            context.ParticipantActions.Add(action);
+            context.SaveChanges();
+            return (action);
+        }
+        public ParticipantAction AddAction(RafflePrize rafflePrize, int tickets)
+        {
+            ParticipantAction action = new ParticipantAction();
+            var currentUser = User.Identity.GetUserId();
+            Participant participant = context.Participants.FirstOrDefault(p => p.ApplicationUserId == currentUser);
+            action.Action = "Placed " + tickets + " for " + rafflePrize.Name + ".";
+            action.Time = DateTime.Now;
+            action.ParticipantId = participant.ParticipantId;
+            context.ParticipantActions.Add(action);
+            context.SaveChanges();
+            return (action);
         }
     }
 }

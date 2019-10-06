@@ -22,7 +22,7 @@ namespace SilentAuction.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddItem([Bind(Include = "RafflePrizeId,Description,Value,RaffleId,Category,CurrentTickets,WinnerId")] RafflePrize rafflePrize, int id)
+        public ActionResult AddItem([Bind(Include = "RafflePrizeId,Description,Value,RaffleId,Category,CurrentTickets,WinnerId,Name")] RafflePrize rafflePrize, int id)
         {
             Raffle raffle = context.Raffles.FirstOrDefault(a => a.RaffleId == id);
             rafflePrize.RaffleId = raffle.RaffleId;

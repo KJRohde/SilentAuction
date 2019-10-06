@@ -214,5 +214,16 @@ namespace SilentAuction.Controllers
             }
             return RedirectToAction("EmailSent", "Raffle", new { id = raffleId });
         }
+        public ActionResult GetTransactions()
+        {
+            var currentUser = User.Identity.GetUserId();
+            Manager manager = context.Managers.FirstOrDefault(m => m.ApplicationUserId == currentUser);
+            var myModel = new ViewModel
+            {
+                Participants = context.Participants.ToList(),
+                Transactions = context.Transactions.Where(r => r.ManagerId == manager.ManagerId).ToList()
+            };
+            return View(myModel);
+        }
     }
 }

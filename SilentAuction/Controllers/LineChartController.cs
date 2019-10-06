@@ -30,7 +30,7 @@ namespace SilentAuction.Controllers
         public ActionResult IndexRaffle(int id)
         {
             Raffle raffle = context.Raffles.FirstOrDefault(a => a.RaffleId == id);
-            var dataSet = context.Data.Where(d => d.AuctionId == id);
+            var dataSet = context.Data.Where(d => d.RaffleId == id);
             List<DataPoint> dataPoints = new List<DataPoint>();
             foreach (Data point in dataSet)
             {
