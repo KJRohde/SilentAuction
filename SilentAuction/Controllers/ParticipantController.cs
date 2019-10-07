@@ -92,7 +92,7 @@ namespace SilentAuction.Controllers
             var currentUserId = User.Identity.GetUserId();
             var buyingParticipant = context.Participants.FirstOrDefault(p => p.ApplicationUserId == currentUserId);
             int tickets = (participant.RaffleTickets);
-            int amount = (tickets * raffle.CostPerTicket);
+            double amount = (tickets * raffle.CostPerTicket);
             raffle.TotalRaised += amount;
             buyingParticipant.RaffleTickets += participant.RaffleTickets;
             context.SaveChanges();
@@ -123,7 +123,7 @@ namespace SilentAuction.Controllers
             context.SaveChanges();
             return data;
         }
-        public Transaction AddTransaction(Raffle raffle, int amount, int tickets)
+        public Transaction AddTransaction(Raffle raffle, double amount, int tickets)
         {
             var currentUserId = User.Identity.GetUserId();
             Participant participant = context.Participants.FirstOrDefault(p => p.ApplicationUserId == currentUserId);
@@ -144,7 +144,7 @@ namespace SilentAuction.Controllers
             return View(rafflePrize);
         }
         [HttpPost]
-        public ActionResult AddTickets([Bind(Include = "RafflePrizeId,Description,Value,RaffleId,Category,CurrentTickets,WinnerId")] RafflePrize rafflePrize, int id)
+        public ActionResult AddTickets([Bind(Include = "RafflePrizeId,Description,Value,RaffleId,Category,CurrentTickets,WinnerId,Name")] RafflePrize rafflePrize, int id)
         {
             
             var currentUser = User.Identity.GetUserId();

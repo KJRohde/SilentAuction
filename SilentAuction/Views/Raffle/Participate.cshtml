@@ -1,8 +1,11 @@
-﻿@model IEnumerable<SilentAuction.Models.RafflePrize>
+﻿@model SilentAuction.Models.ViewModel
 @{
     ViewBag.Title = "Participate";
 }
 <h2>Raffle Prizes</h2>
+<br />
+@Html.ActionLink("Buy Tickets", "BuyTickets", "Participant", new { id = Model.Raffle.RaffleId }, null)
+<br />
 
 @using (Html.BeginForm("Participate", "Raffle", FormMethod.Get))
 {
@@ -13,6 +16,9 @@
 <table class="table">
     <tr>
         <th>
+            Name
+        </th>
+        <th>
             Description
         </th>
         <th>
@@ -22,17 +28,19 @@
         <th></th>
     </tr>
 
-    @foreach (var item in Model)
+    @foreach (var item in Model.RafflePrizes)
     {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Value)
-</td>
+            </td>
             <td>
-                @Html.ActionLink("Buy Tickets", "BuyTickets", "Participant", new { id = item.RaffleId }, null)
                 @Html.ActionLink("Add Tickets", "AddTickets", "Participant", new { id = item.RafflePrizeId }, null)
             </td>
         </tr>

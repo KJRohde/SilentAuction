@@ -65,15 +65,23 @@ namespace SilentAuction.Controllers
         }
         public ActionResult Participate(int id, string category)
         {
-            var raffleItems = context.RafflePrizes.Where(a => a.RaffleId == id).ToList();
             if (category == null)
             {
-                return View(raffleItems);
+                var myModel = new ViewModel
+                {
+                    Raffle = context.Raffles.FirstOrDefault(r => r.RaffleId == id),
+                    RafflePrizes = context.RafflePrizes.Where(p => p.RafflePrizeId == id)
+                };
+                return View(myModel);
             }
             else
             {
-                var selectedItems = raffleItems.Where(r => r.Category == category);
-                return View(selectedItems);
+                var myModel = new ViewModel
+                {
+                    Raffle = context.Raffles.FirstOrDefault(r => r.RaffleId == id),
+                    RafflePrizes = context.RafflePrizes.Where(p => p.RafflePrizeId == id && p.Category == category)
+                };
+                return View(myModel);
             }
         }
         public ActionResult EmailSent(int id)

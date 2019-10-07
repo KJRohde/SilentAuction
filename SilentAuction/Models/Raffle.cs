@@ -25,7 +25,7 @@ namespace SilentAuction.Models
         public int? ManagerId { get; set; }
         public Manager Manager { get; set; }
         public string Description { get; set; }
-        public int CostPerTicket { get; set; }
+        public double CostPerTicket { get; set; }
         [Display(Name = "Message for winners")]
         public string Message { get; set; }
     }
