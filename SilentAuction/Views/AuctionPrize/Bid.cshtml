@@ -31,6 +31,6 @@
 
     <div class="form-actions no-color">
         <input type="submit" value="Bid" class="btn btn-default" /> ||
-        @Html.ActionLink("Back to List", "Index", "Participant")
+        @Html.ActionLink("Back to List", "Participate", "Auction", new { id = Model.AuctionId }, null)
     </div>
 }

@@ -19,6 +19,11 @@ namespace SilentAuction.Controllers
             Raffle raffle = context.Raffles.FirstOrDefault(r => r.RaffleId == id);
             return View(raffle);
         }
+        public ActionResult CompletedIndex(int id)
+        {
+            Raffle raffle = context.Raffles.FirstOrDefault(r => r.RaffleId == id);
+            return View(raffle);
+        }
         public ActionResult Create()
         {
             Raffle raffle = new Raffle();
@@ -65,12 +70,14 @@ namespace SilentAuction.Controllers
         }
         public ActionResult Participate(int id, string category)
         {
+            var currentUser = User.Identity.GetUserId();
             if (category == null)
             {
                 var myModel = new ViewModel
                 {
+                    Participant = context.Participants.FirstOrDefault(a => a.ApplicationUserId == currentUser),
                     Raffle = context.Raffles.FirstOrDefault(r => r.RaffleId == id),
-                    RafflePrizes = context.RafflePrizes.Where(p => p.RafflePrizeId == id)
+                    RafflePrizes = context.RafflePrizes.Where(p => p.RaffleId == id).ToList()
                 };
                 return View(myModel);
             }
@@ -78,8 +85,9 @@ namespace SilentAuction.Controllers
             {
                 var myModel = new ViewModel
                 {
+                    Participant = context.Participants.FirstOrDefault(a => a.ApplicationUserId == currentUser),
                     Raffle = context.Raffles.FirstOrDefault(r => r.RaffleId == id),
-                    RafflePrizes = context.RafflePrizes.Where(p => p.RafflePrizeId == id && p.Category == category)
+                    RafflePrizes = context.RafflePrizes.Where(p => p.RafflePrizeId == id && p.Category == category).ToList()
                 };
                 return View(myModel);
             }

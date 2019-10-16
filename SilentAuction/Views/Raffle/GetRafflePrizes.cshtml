@@ -6,11 +6,6 @@
 }
 <h2>Prizes Available</h2>
 
-@using (Html.BeginForm("GetRafflePrizes", "Raffle", FormMethod.Get))
-{
-    @Html.DropDownList("Category", new SelectList(Enum.GetValues(typeof(SilentAuction.Models.ItemCategory))), "Category", new { @class = "form-control" })
-    <input type="submit" value="Search" />
-}
 
 <table class="table">
     <tr>

@@ -6,7 +6,7 @@
 <br />
 @Html.ActionLink("Buy Tickets", "BuyTickets", "Participant", new { id = Model.Raffle.RaffleId }, null)
 <br />
-
+<p>You currently hold @Model.Participant.RaffleTickets tickets for this raffle</p>
 @using (Html.BeginForm("Participate", "Raffle", FormMethod.Get))
 {
     @Html.DropDownList("Category", new SelectList(Enum.GetValues(typeof(SilentAuction.Models.ItemCategory))), "All", new { @class = "form-control" })

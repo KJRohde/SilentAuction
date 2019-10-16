@@ -20,8 +20,10 @@ namespace SilentAuction.Models
         [DataType(DataType.Date)]
         public DateTime Day { get; set; }
         [DataType(DataType.Time)]
+        [Display(Name = "Start Time")]
         public DateTime StartTime { get; set; }
         [DataType(DataType.Time)]
+        [Display(Name = "End Time")]
         public DateTime EndTime { get; set; }
         public double TotalRaised { get; set; }
         public string Donors { get; set; }

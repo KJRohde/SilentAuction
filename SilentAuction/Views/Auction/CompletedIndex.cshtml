@@ -1,0 +1,54 @@
+﻿@model SilentAuction.Models.Auction
+@{
+    ViewBag.Title = "CompletedIndex";
+}
+
+<div>
+    <h4>@Html.DisplayFor(Model => Model.Name)</h4>
+
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Day)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Day)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.StartTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Donors)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Donors)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("View Auction Prizes", "GetAuctionPrizes", new { id = Model.AuctionId }) ||
+    @Html.ActionLink("View Chart", "IndexAuction", "LineChart", new { id = Model.AuctionId }, null) ||
+</p>

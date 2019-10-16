@@ -13,9 +13,13 @@ namespace SilentAuction.Models
         [Key]
         public int AuctionPrizeId { get; set; }
         public string Name { get; set; }
+        [Display(Name = "Actual Value")]
         public double ActualValue { get; set; }
+        [Display(Name = "Minimum Bid")]
         public double MinimumBid { get; set; }
+        [Display(Name = "Bid Increment")]
         public double BidIncrement { get; set; }
+        [Display(Name = "Current Bid")]
         public double CurrentBid { get; set; }
         public string Description { get; set; }
         public int? TopParticipant { get; set; }

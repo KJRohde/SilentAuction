@@ -4,11 +4,6 @@
 }
 <h2>Minimum Bid Available</h2>
 
-@using (Html.BeginForm("GetAuctionPrizes", "Auction", FormMethod.Get))
-{
-    @Html.DropDownList("Category", new SelectList(Enum.GetValues(typeof(SilentAuction.Models.ItemCategory))), "Category", new { @class = "form-control" })
-    <input type="submit" value="Search" />
-}
 
 <table class="table">
     <tr>

@@ -61,7 +61,7 @@ namespace SilentAuction.Controllers
                 AddDataPoint(auction);
                 auctionPrize.TopParticipant = participant.ParticipantId;
                 context.SaveChanges();
-                return RedirectToAction("Index", "Participant");
+                return RedirectToAction("Participate", "Auction", new { id = auctionPrize.AuctionId });
             }
             catch
             {

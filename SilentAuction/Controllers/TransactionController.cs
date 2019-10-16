@@ -46,7 +46,7 @@ namespace SilentAuction.Controllers
 
             var charge = charges.Create(new ChargeCreateOptions
             {
-                Amount = Convert.ToInt64(transaction.Money),
+                Amount = Convert.ToInt64(transaction.Money * 100),
                 Description = "Silent Auction App",
                 Currency = "usd",
                 CustomerId = customer.Id

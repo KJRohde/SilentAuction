@@ -15,8 +15,10 @@ namespace SilentAuction.Models
         [DataType(DataType.Date)]
         public DateTime Day { get; set; }
         [DataType(DataType.Time)]
+        [Display(Name = "Start Time")]
         public DateTime StartTime { get; set; }
         [DataType(DataType.Time)]
+        [Display(Name = "End Time")]
         public DateTime EndTime { get; set; }
         public double TotalRaised { get; set; }
         public string Donors { get; set; }
@@ -25,6 +27,7 @@ namespace SilentAuction.Models
         public int? ManagerId { get; set; }
         public Manager Manager { get; set; }
         public string Description { get; set; }
+        [Display(Name = "Cost Per Ticket")]
         public double CostPerTicket { get; set; }
         [Display(Name = "Message for winners")]
         public string Message { get; set; }

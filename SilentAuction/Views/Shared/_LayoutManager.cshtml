@@ -6,6 +6,7 @@
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+<link href="~/Content/StyleSheet1.css" rel="stylesheet" />
 </head>
 <body>
         <div class="navbar navbar-inverse navbar-fixed-top">
@@ -20,6 +21,7 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Home", "Index", "Manager")</li>
                         <li>@Html.ActionLink("Edit My Info", "Edit", "Manager")</li>
                         <li>@Html.ActionLink("Completed Auctions", "CompletedAuctions", "Manager")</li>
                         <li>@Html.ActionLink("Completed Raffles", "CompletedRaffles", "Manager")</li>

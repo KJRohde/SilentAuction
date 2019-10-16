@@ -77,7 +77,7 @@ namespace SilentAuction.Controllers
         {
             var currentUserId = User.Identity.GetUserId();
             var participant = context.Participants.FirstOrDefault(p => p.ApplicationUserId == currentUserId);
-            var fullHistory = context.ParticipantActions.Where(a => a.ParticipantId == participant.ParticipantId);
+            var fullHistory = context.ParticipantActions.OrderByDescending(a => a.Time).Where(a => a.ParticipantId == participant.ParticipantId);
             return View(fullHistory);
         }
         public ActionResult BuyTickets(int id)
@@ -97,9 +97,9 @@ namespace SilentAuction.Controllers
             buyingParticipant.RaffleTickets += participant.RaffleTickets;
             context.SaveChanges();
             AddDataPoint(raffle);
-            AddTransaction(raffle, amount, tickets);
+            var transaction = AddTransaction(raffle, amount, tickets);
             AddAction(raffle, tickets);
-            return RedirectToAction("Index", "Participant");
+            return RedirectToAction("Pay", "Transaction", new { id = transaction.TransactionId });
 
 
         }
@@ -188,7 +188,7 @@ namespace SilentAuction.Controllers
             ParticipantAction action = new ParticipantAction();
             var currentUser = User.Identity.GetUserId();
             Participant participant = context.Participants.FirstOrDefault(p => p.ApplicationUserId == currentUser);
-            action.Action = "Placed " + tickets + " for " + rafflePrize.Name + ".";
+            action.Action = "Placed " + tickets + " tickets for " + rafflePrize.Name + ".";
             action.Time = DateTime.Now;
             action.ParticipantId = participant.ParticipantId;
             context.ParticipantActions.Add(action);

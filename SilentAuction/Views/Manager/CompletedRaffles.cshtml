@@ -2,13 +2,13 @@
 @{
     ViewBag.Title = "CompletedRaffles";
 }
-<br />
-<br />
-<br />
 <h2>Completed Raffles</h2>
 
 <table class="table">
     <tr>
+        <th>
+            Day
+        </th>
         <th>
             Start Time
         </th>
@@ -28,6 +28,9 @@
     {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.Day)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.StartTime)
             </td>
             <td>
@@ -40,7 +43,7 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.ActionLink("Details", "Index", "Raffle", new { id = item.RaffleId }, null)
+                @Html.ActionLink("Details", "CompletedIndex", "Raffle", new { id = item.RaffleId }, null)
             </td>
         </tr>
     }

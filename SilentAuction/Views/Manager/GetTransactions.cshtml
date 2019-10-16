@@ -1,5 +1,5 @@
 ﻿
-@model IEnumerable<SilentAuction.Models.ViewModel>
+@model SilentAuction.Models.ViewModel
 @{
     ViewBag.Title = "GetTransactions";
 }
@@ -16,28 +16,34 @@
         <th>
             Participant
         </th>
+        <th>
+            Email
+        </th>
         <th></th>
     </tr>
 
     @foreach (var item in Model.Transactions.Where(m => m.Paid == false).ToList())
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Money)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Participant.FirstName) @Html.DisplayFor(modelItem => item.Participant.LastName)
-            </td>
-            @if (User.IsInRole("Participant"))
-            {
-                <td>
-                    @Html.ActionLink("Pay", "Pay", new { id = item.TransactionId })
-                </td>
-            }
-        </tr>
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Description)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Money)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Participant.FirstName) @Html.DisplayFor(modelItem => item.Participant.LastName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Participant.EmailAddress)
+    </td>
+    @if (User.IsInRole("Participant"))
+    {
+        <td>
+            @Html.ActionLink("Pay", "Pay", new { id = item.TransactionId })
+        </td>
+    }
+</tr>
     }
 </table>
 <br />
@@ -55,10 +61,13 @@
         <th>
             Participant
         </th>
+        <th>
+            Email
+        </th>
         <th></th>
     </tr>
 
-    @foreach (var item in Model.Where(m => m.Paid == true).ToList())
+    @foreach (var item in Model.Transactions.Where(m => m.Paid == true).ToList())
     {
         <tr>
             <td>
@@ -69,6 +78,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Participant.FirstName)  @Html.DisplayFor(modelItem => item.Participant.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Participant.EmailAddress)
             </td>
         </tr>
     }

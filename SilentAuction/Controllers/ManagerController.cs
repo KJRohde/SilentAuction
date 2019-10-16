@@ -15,10 +15,10 @@ namespace SilentAuction.Controllers
     {
         private ApplicationDbContext context = new ApplicationDbContext();
         // GET: Managers
-        public ActionResult Index(int id)
+        public ActionResult Index()
         {
-
-            Manager manager = context.Managers.Where(m => m.ManagerId == id).Single();
+            var currentUser = User.Identity.GetUserId();
+            Manager manager = context.Managers.Where(m => m.ApplicationUserId == currentUser).Single();
             var myModel = new ViewModel
             {
                 Auctions = context.Auctions.Where(s => s.ManagerId == manager.ManagerId).ToList(),

@@ -23,6 +23,11 @@ namespace SilentAuction.Controllers
             Auction auction = context.Auctions.FirstOrDefault(a => a.AuctionId == id);
             return View(auction);
         }
+        public ActionResult CompletedIndex(int id)
+        {
+            Auction auction = context.Auctions.FirstOrDefault(a => a.AuctionId == id);
+            return View(auction);
+        }
         public ActionResult Create()
         {
             Auction auction = new Auction();
