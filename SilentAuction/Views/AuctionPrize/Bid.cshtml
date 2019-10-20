@@ -11,26 +11,33 @@
 <br />
 <p>The current bid on this item is: @Html.DisplayFor(model => model.CurrentBid)</p>
 <br />
-    @{
-        if (Model.CurrentBid == 0)
-        {
-<p>By pressing the button below, you will bid @(Model.MinimumBid)</p>
-        }
-        else
-        {
-<p>By pressing the button below, you will bid @(Model.CurrentBid + Model.BidIncrement)</p>
-        }
+@{
+    if (Model.CurrentBid == 0)
+    {
+        <p>The minimum you can bid is @(Model.MinimumBid). If you wish to bid this amount leave the box blank and click bid</p> }
+    else
+    {
+        <p>The minimum you can bid is @(Model.CurrentBid + Model.BidIncrement). If you wish to bid this amount leave the box blank and click bid</p>
     }
+}
 <br />
-
-<p>Going once... Going twice...</p>
+<p>If you wish to bid more than the minimum, enter your desired bid in the box.</p>
+<br />
 
 @using (Html.BeginForm())
 {
+    @Html.HiddenFor(model => model.AuctionPrizeId)
     @Html.AntiForgeryToken()
-
-    <div class="form-actions no-color">
-        <input type="submit" value="Bid" class="btn btn-default" /> ||
-        @Html.ActionLink("Back to List", "Participate", "Auction", new { id = Model.AuctionId }, null)
+    <div class="form-group">
+        @Html.LabelFor(model => model.CustomBid, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.CustomBid, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.CustomBid, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Bid" class="btn btn-default" />
+        </div>
     </div>
 }

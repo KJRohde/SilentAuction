@@ -29,39 +29,67 @@ namespace SilentAuction.Controllers
             return View(auctionprize);
         }
         [HttpPost]
-        public ActionResult Bid([Bind(Include = "AuctionPrizeId,ActualValue,MinimumBid,BidIncrement,CurrentBid,Description,TopParticipant,Category,WinnerId,AuctionId,Participant,Paid")]AuctionPrize auctionPrize, int id)
+        public ActionResult Bid([Bind(Include = "AuctionPrizeId,ActualValue,MinimumBid,BidIncrement,CurrentBid,Description,TopParticipant,Category,WinnerId,AuctionId,Participant,Paid,CustomBid")]AuctionPrize auctionPrize, int id)
         {
             try
             {
-                auctionPrize = context.AuctionPrizes.FirstOrDefault(a => a.AuctionPrizeId == id);
                 var currentUserId = User.Identity.GetUserId();
+                var auctionPrizeToEdit = context.AuctionPrizes.FirstOrDefault(a => a.AuctionPrizeId == id);
                 Participant participant = context.Participants.FirstOrDefault(p => p.ApplicationUserId == currentUserId);
-                Participant outbidParticipant = context.Participants.FirstOrDefault(o => o.ParticipantId == auctionPrize.TopParticipant);
-                Auction auction = context.Auctions.FirstOrDefault(u => u.AuctionId == auctionPrize.AuctionId);
-                if (auctionPrize.CurrentBid == 0)
+                Auction auction = context.Auctions.FirstOrDefault(u => u.AuctionId == auctionPrizeToEdit.AuctionId);
+                Participant outbidParticipant = context.Participants.FirstOrDefault(o => o.ParticipantId == auctionPrizeToEdit.TopParticipant);
+                if (auctionPrize.CustomBid == 0)
                 {
-                    auctionPrize.CurrentBid += auctionPrize.MinimumBid;
-                    auction.TotalRaised += auctionPrize.MinimumBid;
+                    if (auctionPrizeToEdit.CurrentBid == 0)
+                    {
+                        auctionPrizeToEdit.CurrentBid += auctionPrizeToEdit.MinimumBid;
+                        auction.TotalRaised += auctionPrizeToEdit.MinimumBid;
+                    }
+                    else
+                    {
+                        auctionPrizeToEdit.CurrentBid += auctionPrizeToEdit.BidIncrement;
+                        auction.TotalRaised += auctionPrizeToEdit.BidIncrement;
+                        ParticipantAction participantActionOutBid = new ParticipantAction();
+                        participantActionOutBid.ParticipantId = auctionPrizeToEdit.TopParticipant;
+                        participantActionOutBid.Action = "You have been outbid on " + auctionPrizeToEdit.Name + ".";
+                        participantActionOutBid.Time = DateTime.Now;
+                        context.ParticipantActions.Add(participantActionOutBid);
+                    }
+                }
+                else if (auctionPrize.CustomBid != 0 && auctionPrize.CustomBid >= auctionPrizeToEdit.BidIncrement + auctionPrizeToEdit.CurrentBid)
+                {
+                    if (auctionPrizeToEdit.CurrentBid == 0)
+                    {
+                        auctionPrizeToEdit.CurrentBid = auctionPrize.CustomBid;
+                        auction.TotalRaised += auctionPrize.CustomBid;
+                        auctionPrizeToEdit.CustomBid = 0;
+                    }
+                    else
+                    {
+                        auctionPrizeToEdit.CurrentBid = auctionPrize.CustomBid;
+                        auction.TotalRaised += auctionPrize.CustomBid;
+                        auctionPrizeToEdit.CustomBid = 0;
+                        ParticipantAction participantActionOutBid = new ParticipantAction();
+                        participantActionOutBid.ParticipantId = auctionPrizeToEdit.TopParticipant;
+                        participantActionOutBid.Action = "You have been outbid on " + auctionPrizeToEdit.Name + ".";
+                        participantActionOutBid.Time = DateTime.Now;
+                        context.ParticipantActions.Add(participantActionOutBid);
+                    }
                 }
                 else
                 {
-                    auctionPrize.CurrentBid += auctionPrize.BidIncrement;
-                    auction.TotalRaised += auctionPrize.BidIncrement;
-                    ParticipantAction participantActionOutbid = new ParticipantAction();
-                    participantActionOutbid.ParticipantId = outbidParticipant.ParticipantId;
-                    participantActionOutbid.Action = "You have been outbid on " + auctionPrize.Name + ".";
-                    participantActionOutbid.Time = DateTime.Now;
-                    context.ParticipantActions.Add(participantActionOutbid);
+                    ModelState.AddModelError("", "You must bid more than the minimum bid increment");
+                    return View(auctionPrizeToEdit);
                 }
                 ParticipantAction participantActionBid = new ParticipantAction();
                 participantActionBid.ParticipantId = participant.ParticipantId;
-                participantActionBid.Action = "You have bid $" + auctionPrize.CurrentBid + " on " + auctionPrize.Name + ".";
+                participantActionBid.Action = "You have bid $" + auctionPrizeToEdit.CurrentBid + " on " + auctionPrizeToEdit.Name + ".";
                 participantActionBid.Time = DateTime.Now;
                 context.ParticipantActions.Add(participantActionBid);
                 AddDataPoint(auction);
-                auctionPrize.TopParticipant = participant.ParticipantId;
+                auctionPrizeToEdit.TopParticipant = participant.ParticipantId;
                 context.SaveChanges();
-                return RedirectToAction("Participate", "Auction", new { id = auctionPrize.AuctionId });
+                return RedirectToAction("Participate", "Auction", new { id = auctionPrizeToEdit.AuctionId });
             }
             catch
             {
@@ -75,11 +103,12 @@ namespace SilentAuction.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddItem([Bind(Include = "AuctionPrizeId,Name,Description,ActualValue,MinimumBid,BidIncrement,CurrentBid,Picture,Participant,AuctionId,WinnerId,Category,Paid")] AuctionPrize auctionPrize, int id)
+        public ActionResult AddItem([Bind(Include = "AuctionPrizeId,Name,Description,ActualValue,MinimumBid,BidIncrement,CurrentBid,Picture,Participant,AuctionId,WinnerId,Category,Paid, CustomBid")] AuctionPrize auctionPrize, int id)
         {
             Auction auction = context.Auctions.FirstOrDefault(a => a.AuctionId == id);
             auctionPrize.AuctionId = auction.AuctionId;
             auctionPrize.CurrentBid = 0;
+            auctionPrize.CustomBid = 0;
             auctionPrize.TopParticipant = null;
             auctionPrize.ParticipantId = null;
 

@@ -2,14 +2,10 @@
     background-image: url(raffle-tickets.jpg);
     background-size: 100%;
 }
-
-table, th, td {
-    background-color: ghostwhite;
-    border: 2px;
+div {
+    background-color: antiquewhite;
+    opacity: 0.9;
 }
-
-div{
-    background-color: floralwhite;
-    background-size: contain;
-    opacity: 0.96;
+table{
+    background-color: aquamarine;
 }

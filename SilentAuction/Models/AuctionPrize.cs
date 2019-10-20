@@ -19,6 +19,7 @@ namespace SilentAuction.Models
         public double MinimumBid { get; set; }
         [Display(Name = "Bid Increment")]
         public double BidIncrement { get; set; }
+        public double CustomBid { get; set; }
         [Display(Name = "Current Bid")]
         public double CurrentBid { get; set; }
         public string Description { get; set; }

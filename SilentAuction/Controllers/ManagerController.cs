@@ -21,8 +21,8 @@ namespace SilentAuction.Controllers
             Manager manager = context.Managers.Where(m => m.ApplicationUserId == currentUser).Single();
             var myModel = new ViewModel
             {
-                Auctions = context.Auctions.Where(s => s.ManagerId == manager.ManagerId).ToList(),
-                Raffles = context.Raffles.Where(r => r.ManagerId == manager.ManagerId).ToList()
+                Auctions = context.Auctions.Where(s => s.ManagerId == manager.ManagerId && s.EndTime > DateTime.Now).ToList(),
+                Raffles = context.Raffles.Where(r => r.ManagerId == manager.ManagerId && r.EndTime > DateTime.Now).ToList()
             };
             return View(myModel);
         }
