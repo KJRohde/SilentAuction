@@ -10,6 +10,7 @@ var chart = new CanvasJS.Chart("chartContainer", {
 		text: "Auction Progress"
 	},
     axisX: {
+        dataType: "dateTime",
         title: "Time",
         includeZero: false
     },
@@ -20,7 +21,8 @@ var chart = new CanvasJS.Chart("chartContainer", {
 	},
 	data: [{
 		type: "spline",
-		yValueFormatString: "$#,###",
+        yValueFormatString: "$#,###",
+        xValueFormatString: "hh:mm TT",
 		dataPoints: @Html.Raw(ViewBag.DataPoints)
 	}]
 });
